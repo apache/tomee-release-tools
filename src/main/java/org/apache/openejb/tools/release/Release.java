@@ -16,11 +16,13 @@
  */
 package org.apache.openejb.tools.release;
 
+import org.apache.openejb.tools.release.cmd.Settings;
 import org.apache.openejb.tools.release.util.Files;
 import org.apache.openejb.tools.release.util.ObjectMap;
 import org.apache.openejb.tools.release.util.Options;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
@@ -66,6 +68,12 @@ public class Release {
 
 
     static {
+        try {
+            Settings.Load.main();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         final File public_html = Files.file(System.getProperty("user.home"), "public_html");
 
         if (public_html.exists()) {

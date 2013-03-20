@@ -61,8 +61,6 @@ public class Main {
     }
 
     public static void main(String[] args) throws Exception {
-        Settings.Load.main();
-
         final List<String> list = processSystemProperties(args);
 
         final String command = (list.size() == 0) ? "help" : list.remove(0);
