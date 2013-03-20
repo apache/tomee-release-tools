@@ -20,6 +20,7 @@ import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
+import org.apache.openejb.tools.release.cmd.Settings;
 import org.apache.openejb.tools.release.util.Commands;
 import org.apache.openejb.tools.release.util.JarLocation;
 import org.apache.xbean.finder.AnnotationFinder;
@@ -60,6 +61,8 @@ public class Main {
     }
 
     public static void main(String[] args) throws Exception {
+        Settings.Load.main();
+
         final List<String> list = processSystemProperties(args);
 
         final String command = (list.size() == 0) ? "help" : list.remove(0);

@@ -41,7 +41,7 @@ public class Release {
     public static String trunk = "https://svn.apache.org/repos/asf/tomee/tomee/branches/tomee-1.5.x/";
     public static String branches = "https://svn.apache.org/repos/asf/tomee/tomee/branches/";
     public static String tags = "https://svn.apache.org/repos/asf/tomee/tomee/tags/";
-    public static String tckBranches = "https://svn.apache.org/repos/tck/openejb-tck/branches/";
+    public static String tckBranches = "https://svn.apache.org/repos/tck/tomee-tck/branches/";
     public static String tckTrunk = "https://svn.apache.org/repos/tck/tomee-tck/trunk";
 
     public static String staging = "https://repository.apache.org/content/repositories/orgapachetomee-${build}";

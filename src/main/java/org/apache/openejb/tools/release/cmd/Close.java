@@ -60,6 +60,8 @@ public class Close {
 
         Release.staging = repository.getRepositoryURI().toString();
         Release.build = Release.staging.replaceAll(".*-", "");
+
+        org.apache.openejb.tools.release.cmd.Settings.Save.main();
     }
 
 }
