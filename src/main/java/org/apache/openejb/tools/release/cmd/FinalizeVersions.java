@@ -46,18 +46,18 @@ public class FinalizeVersions {
 
         cd(dir);
 
-        final String branch = Release.branches + Release.openejbVersionName;
+        final String branch = Release.branches + Release.tomeeVersionName;
 
         // Checkout the branch
         exec("svn", "co", branch);
 
-        final File workingCopy = cd(new File(dir + "/" + Release.openejbVersionName));
+        final File workingCopy = cd(new File(dir + "/" + Release.tomeeVersionName));
 
         updateVersions(workingCopy);
         updateExamplesVersions(Files.file(workingCopy, "examples"));
 
-//        exec("svn", "-m", "[release-tools] finalizing versions for " + Release.openejbVersionName, "ci");
-        exec("svn", "-m", "finalizing versions in arquillian.xml files", "ci");
+//        exec("svn", "-m", "[release-tools] finalizing versions for " + Release.tomeeVersionName, "ci");
+//        exec("svn", "-m", "finalizing versions in arquillian.xml files", "ci");
     }
 
     private static void updateVersions(File workingCopy) throws IOException {
@@ -69,8 +69,9 @@ public class FinalizeVersions {
         for (File file : files) {
             InputStream in = IO.read(file);
 
-            in = new ReplaceStringInputStream(in, "1.0.0-beta-3-SNAPSHOT", "1.0.0");
-            in = new ReplaceStringInputStream(in, "4.0.0-beta-3-SNAPSHOT", "4.0.0");
+            in = new ReplaceStringInputStream(in, Release.tomeeVersion + "-SNAPSHOT", Release.tomeeVersion);
+            in = new ReplaceStringInputStream(in, Release.openejbVersion + "-SNAPSHOT", Release.openejbVersion);
+            in = new ReplaceStringInputStream(in, "1.0.2-SNAPSHOT", Release.tomeeVersion);
 
             update(file, in);
         }
@@ -85,8 +86,10 @@ public class FinalizeVersions {
         for (File file : files) {
             InputStream in = IO.read(file);
 
+            in = new ReplaceStringInputStream(in, "1.0-SNAPSHOT", "1.0");
             in = new ReplaceStringInputStream(in, "1.1-SNAPSHOT", "1.0");
             in = new ReplaceStringInputStream(in, "1.1-SNAPSHOT", "1.0");
+            in = new ReplaceStringInputStream(in, "1.1.0-SNAPSHOT", "1.0");
             in = new ReplaceStringInputStream(in, "0.0.1-SNAPSHOT", "1.0");
 
             update(file, in);

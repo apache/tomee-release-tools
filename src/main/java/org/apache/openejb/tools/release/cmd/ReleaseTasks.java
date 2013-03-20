@@ -100,7 +100,7 @@ public class ReleaseTasks {
             if (task.getCommands().size() > 0) {
                 description += "\n\nCommands:\n";
                 for (String command : task.getCommands()) {
-                    description += String.format("http://svn.apache.org/repos/asf/openejb/trunk/sandbox/release-tools/src/main/java/org/apache/openejb/tools/release/cmd/%s.java\n", command);
+                    description += String.format("https://svn.apache.org/repos/asf/tomee/sandbox/release-tools/src/main/java/org/apache/openejb/tools/release/cmd/%s.java\n", command);
                 }
             }
 

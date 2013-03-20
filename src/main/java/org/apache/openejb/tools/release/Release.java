@@ -32,19 +32,19 @@ import java.util.regex.Pattern;
  */
 public class Release {
 
-    public static String openejbVersion = "4.5.1";
-    public static String tomeeVersion = "1.5.1";
+    public static String openejbVersion = "4.5.2";
+    public static String tomeeVersion = "1.5.2";
 
     public static String openejbVersionName = "openejb-${openejbVersion}";
     public static String tomeeVersionName = "tomee-${tomeeVersion}";
 
-    public static String trunk = "https://svn.apache.org/repos/asf/openejb/trunk/openejb/";
-    public static String branches = "https://svn.apache.org/repos/asf/openejb/branches/";
-    public static String tags = "https://svn.apache.org/repos/asf/openejb/tags/";
+    public static String trunk = "https://svn.apache.org/repos/asf/tomee/tomee/branches/tomee-1.5.x/";
+    public static String branches = "https://svn.apache.org/repos/asf/tomee/tomee/branches/";
+    public static String tags = "https://svn.apache.org/repos/asf/tomee/tomee/tags/";
     public static String tckBranches = "https://svn.apache.org/repos/tck/openejb-tck/branches/";
-    public static String tckTrunk = "https://svn.apache.org/repos/tck/openejb-tck/trunk";
+    public static String tckTrunk = "https://svn.apache.org/repos/tck/tomee-tck/trunk";
 
-    public static String staging = "https://repository.apache.org/content/repositories/orgapacheopenejb-${build}";
+    public static String staging = "https://repository.apache.org/content/repositories/orgapachetomee-${build}";
     public static String build = "001";
 
     public static String ciBuilder = "openejb-4.5.1";
@@ -57,7 +57,7 @@ public class Release {
     public static String mavenOpts = "-Xmx2048m -XX:MaxPermSize=1024m";
 
     public static String user = System.getProperty("user.name");
-    public static String to = "dev@openejb.apache.org";
+    public static String to = "dev@tomee.apache.org";
     public static String from = "${user}@apache.org";
 
     public static String lastReleaseDate = "2012-09-28";

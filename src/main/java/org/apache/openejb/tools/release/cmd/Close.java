@@ -41,7 +41,7 @@ public class Close {
         final Nexus nexus = new Nexus(user, pass);
 
         ObjectList<Repository> repositories = nexus.getRepositories();
-        repositories = repositories.equals("profileName", "org.apache.openejb");
+        repositories = repositories.equals("profileName", "org.apache.tomee");
         repositories = repositories.descending("createdDate");
 
         for (Repository repository : repositories) {

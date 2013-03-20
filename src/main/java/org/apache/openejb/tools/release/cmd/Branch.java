@@ -30,14 +30,14 @@ public class Branch {
 
     public static void main(String... args) throws Exception {
 
-        final String branch = Release.branches + Release.openejbVersionName;
+        final String branch = Release.branches + Release.tomeeVersionName;
         final String trunk = Release.trunk;
 
         if (exec("svn", "info", branch) == 0) {
-            exec("svn", "-m", format("[release-tools] recreating branch for %s", Release.openejbVersionName), "rm", branch);
+            exec("svn", "-m", format("[release-tools] recreating branch for %s", Release.tomeeVersionName), "rm", branch);
         }
 
-        exec("svn", "-m", format("[release-tools] creating branch for %s", Release.openejbVersionName), "cp", trunk, branch);
+        exec("svn", "-m", format("[release-tools] creating branch for %s", Release.tomeeVersionName), "cp", trunk, branch);
     }
 
 }
