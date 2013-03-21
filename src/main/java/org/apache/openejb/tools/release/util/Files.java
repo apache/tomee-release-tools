@@ -92,6 +92,23 @@ public class Files {
         return accepted;
     }
 
+    public static void remove(final File file) {
+        if (file == null) return;
+        if (!file.exists()) return;
+
+        if (file.isDirectory()) {
+            final File[] files = file.listFiles();
+            if (files != null) {
+                for (final File child : files) {
+                    remove(child);
+                }
+            }
+        }
+        if (!file.delete()) {
+            throw new IllegalStateException("Could not delete file: " + file.getAbsolutePath());
+        }
+    }
+
     public static void exists(File file, String s) {
         if (!file.exists()) throw new RuntimeException(s + " does not exist: " + file.getAbsolutePath());
     }

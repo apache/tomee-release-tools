@@ -32,6 +32,9 @@ import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import static java.lang.String.format;
+import static org.apache.openejb.tools.release.util.Exec.exec;
+
 /**
  * Little utility that downloads the binaries into
  */
@@ -39,26 +42,39 @@ import java.util.zip.ZipFile;
 public class Binaries {
 
     public static void main(String[] args) throws Exception {
-        final NexusClient client = new NexusClient();
 
         final File dir = Files.file(Release.builddir, "staging-" + Release.build, Release.tomeeVersionName);
+
+        { // Make and checkout the binaries dir in svn
+            if (dir.exists()) {
+                Files.remove(dir);
+            }
+
+            Files.mkdirs(dir.getParentFile());
+
+            final String svnBinaryLocation = format("https://dist.apache.org/repos/dist/dev/tomee/staging-%s/%s", Release.build, Release.tomeeVersionName);
+            exec("svn", "-m", format("[release-tools] staged binary dir for %s", Release.tomeeVersionName), "mkdir", "--parents", svnBinaryLocation);
+            exec("svn", "co", svnBinaryLocation, dir.getAbsolutePath());
+        }
+
         final URI repo = URI.create(Release.staging);
 
         System.out.println("Downloads: " + dir.getAbsolutePath());
 
-        if (!dir.exists() && !dir.mkdirs()) throw new IllegalStateException("Cannot make directory: " + dir.getAbsolutePath());
-
-
+        final NexusClient client = new NexusClient();
         final UriSet all = new UriSet(client.crawl(repo));
 
         UriSet binaries = all.include(".*\\.(zip|gz|war).*");
         binaries = binaries.exclude(".*\\.asc\\.(sha1|md5)");
+        binaries = binaries.exclude(".*itests.*");
+        binaries = binaries.exclude(".*karafee.*");
 
-
-        for (URI uri : binaries.include(".*\\/(tomee|openejb-|apache-tomee|examples)-.*|.*source-release.*")) {
+        for (URI uri : binaries) {
             final File file = new File(dir, uri.getPath().replaceAll(".*/", ""));
             System.out.println("Downloading " + file.getName());
             client.download(uri, file);
+
+            exec("svn", "add", file.getAbsolutePath());
 
             if (file.getName().endsWith(".zip")) {
                 final PrintStream out = new PrintStream(IO.write(new File(file.getAbsolutePath() + ".txt")));
@@ -67,6 +83,8 @@ public class Binaries {
                 out.close();
             }
         }
+
+        exec("svn", "-m", format("[release-tools] staged binaries for %s", Release.tomeeVersionName), "ci", dir.getAbsolutePath());
     }
 
     private static void list(File file, PrintStream out) throws IOException {

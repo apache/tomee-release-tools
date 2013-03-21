@@ -46,8 +46,8 @@ public class Release {
     public static String tckBranches = "https://svn.apache.org/repos/tck/tomee-tck/branches/";
     public static String tckTrunk = "https://svn.apache.org/repos/tck/tomee-tck/trunk";
 
-    public static String staging = "https://repository.apache.org/content/repositories/orgapachetomee-${build}";
-    public static String build = "001";
+    public static String staging = "https://repository.apache.org/content/repositories/orgapachetomee-008";
+    public static String build = "008";
 
     public static String ciBuilder = "openejb-4.5.1";
     public static String ciBuildNumber = "1";
