@@ -85,7 +85,7 @@ public class CompareLibraries {
 
     private static String path(Map<String, FileData> b, String key) {
         final FileData value = b.get(key);
-        return value.file.getName() + " [" + value.size + " ko]";
+        return value.file.getName() + " [" + String.format("%.2f", value.size) + " ko]";
 //        return b.get(key).getAbsolutePath().replace(new File("").getAbsolutePath(),"");
     }
 
