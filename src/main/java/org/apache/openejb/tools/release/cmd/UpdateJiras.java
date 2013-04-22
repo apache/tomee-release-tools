@@ -22,10 +22,12 @@ import org.apache.openejb.tools.release.Commit;
 import org.apache.openejb.tools.release.Maven;
 import org.apache.openejb.tools.release.Release;
 import org.apache.openejb.tools.release.util.Exec;
+import org.apache.openejb.tools.release.util.IO;
 import org.apache.openejb.tools.release.util.ObjectList;
 import org.apache.openejb.tools.release.util.Options;
 import org.codehaus.swizzle.jira.Issue;
 import org.codehaus.swizzle.jira.Jira;
+import org.codehaus.swizzle.jira.Status;
 import org.codehaus.swizzle.jira.Version;
 
 import javax.xml.bind.JAXBContext;
@@ -34,13 +36,18 @@ import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
+import java.util.concurrent.Semaphore;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @version $Rev$ $Date$
@@ -50,62 +57,80 @@ public class UpdateJiras {
 
     private static SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
 
-    public static void main(String... args) throws Exception {
+    public static void _main(String... args) throws Exception {
 
         final String tag = Release.tags + Release.openejbVersionName;
 
         updateJiraFixVersions(tag, "HEAD", "{" + Release.lastReleaseDate + "}", Release.tomeeVersion, Release.openejbVersion);
     }
 
-    public static void _main(String[] args) throws Exception {
-        updateJiraFixVersions("http://svn.apache.org/repos/asf/openejb/trunk/openejb/", "1364034","1364034", "1.1.0" ,"4.1.0");
+    public static void main(String[] args) throws Exception {
+
+//        final List<String> jiraKeys = getJiraKeys("TOMEE-1TOMEE-2TOMEE-3TOMEE-4");
+//        for (String jiraKey : jiraKeys) {
+//            System.out.println(jiraKey);
+//        }
+
+        updateJiraFixVersions("http://svn.apache.org/repos/asf/tomee/tomee/branches/tomee-1.5.2", "1417791","HEAD", "1.5.2" ,"4.5.2");
     }
+
+    static final Pattern pattern = Pattern.compile("((OPENEJB|TOMEE)-[0-9]+)");
 
     private static void updateJiraFixVersions(String repo, final String start, final String end, final String tomeeVersion, final String openejbVersion) throws Exception {
         final InputStream in = Exec.read("svn", "log", "--verbose", "--xml", "-r" + start + ":" + end, repo);
 
-        final JAXBContext context = JAXBContext.newInstance(Commit.Log.class);
-        final Unmarshaller unmarshaller = context.createUnmarshaller();
+        final String content = IO.slurp(in).toUpperCase();
+        System.out.println(content);
+        final Set<String> keys = new HashSet<String>(getJiraKeys(content));
 
-        final Commit.Log log = (Commit.Log) unmarshaller.unmarshal(in);
-
-        final State state = new State();
-
-        { // Collect the work that made it into the release
-            ObjectList<Commit> commits = log.getCommits();
-            commits = commits.ascending("revision");
-
-            mine:
-            for (Commit commit : commits) {
-                final String[] tokens = commit.getMessage().toUpperCase().split("[^A-Z0-9-]+");
-                for (String token : tokens) {
-                    if (token.matches("(OPENEJB|TOMEE)-[0-9]+")) {
-                        try {
-                            state.get(token).add(commit);
-//                            break mine;
-                        } catch (Exception e) {
-                            System.err.printf("Bad issue %s\n", token);
-                        }
-                    }
-                }
-            }
+        for (String key : keys) {
+            System.out.println(key);
         }
 
-        // Close those jiras with links to the commits
-        for (IssueCommits ic : state.map.values()) {
-            final Issue issue = ic.getIssue();
+        final State state = new State();
+        final Version tomee = state.jira.getVersion("TOMEE", tomeeVersion);
+        final Version openejb = state.jira.getVersion("OPENEJB", openejbVersion);
 
-            final StringBuilder comment = new StringBuilder();
-            for (Commit commit : ic.getCommits()) {
-                comment.append(String.format("%s - http://svn.apache.org/viewvc?view=revision&revision=%s - %s\n", date.format(commit.getDate()), commit.getRevision(), commit.getAuthor()));
+
+        jiras: for (String key : keys) {
+            if ("TOMEE-1".equals(key)) continue;
+
+            final Issue issue = state.jira.getIssue(key);
+            if (issue == null) continue;
+
+            final List<Version> fixVersions = issue.getFixVersions();
+
+            for (Version fixVersion : fixVersions) {
+                if (fixVersion.getReleased()) continue jiras;
             }
 
-            try {
-                System.out.println("\n\n" + comment);
-                System.out.printf("Adding comment to %s\n", issue.getKey());
-//                state.jira.addComment(issue.getKey(), comment.toString());
-            } catch (Exception e) {
-                synchronized (System.out) {
+            Version version = null;
+            if (issue.getKey().startsWith("TOMEE")) {
+                version = tomee;
+            }
+
+            if (issue.getKey().startsWith("OPENEJB")) {
+                version = openejb;
+            }
+
+            System.out.println("Updating " + key);
+            final Set<String> ids = new HashSet<String>();
+            for (Version v : issue.getFixVersions()) {
+                if (v.getName().equals("1.6.0.beta1")) continue;
+                ids.add(v.getId() + "");
+            }
+
+            final int versions = ids.size();
+            ids.add(version.getId() + "");
+
+            if (versions != ids.size()) {
+                try {
+                    System.out.printf("Adding version to %s\n", issue.getKey());
+
+                    final Hashtable map = new Hashtable();
+                    map.put("fixVersions", new Vector(ids));
+                    call(state.jira, "updateIssue", issue.getKey(), map);
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -146,6 +171,26 @@ public class UpdateJiras {
         }
     }
 
+    private static boolean isClosed(Issue issue) {
+        final String name = issue.getStatus().getName();
+        if ("Closed".equals(name)) return true;
+        if ("Resolved".equals(name)) return true;
+
+        return false;
+    }
+
+    private static List<String> getJiraKeys(String message) {
+        final Matcher matcher = pattern.matcher(message);
+
+        final List<String> list = new ArrayList<String>();
+
+        while (matcher.find()) {
+            list.add(matcher.group());
+        }
+
+        return list;
+    }
+
     private static void call(Jira jira, String command, Object... args) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         final Method method = Jira.class.getDeclaredMethod("call", String.class, Object[].class);
         method.setAccessible(true);
@@ -167,7 +212,7 @@ public class UpdateJiras {
             jira.login(username, password);
         }
 
-        public IssueCommits get(String key) {
+        public synchronized IssueCommits get(String key) {
             final IssueCommits commits = map.get(key);
             if (commits != null) return commits;
 
@@ -200,7 +245,7 @@ public class UpdateJiras {
             return commits;
         }
 
-        public void add(Commit commit) {
+        public synchronized void add(Commit commit) {
             this.commits.add(commit);
         }
 

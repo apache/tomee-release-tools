@@ -47,37 +47,14 @@ public class Upgrades {
 
     public List<Issue> getIssues() throws Exception {
 
-        Server server = Maven.settings.getServer("apache.jira");
-        final String username = server.getUsername();
-        final String password = server.getPassword();
-
-        final Options options = new Options(System.getProperties());
-        Jira jira = new Jira("https://issues.apache.org/jira/rpc/xmlrpc");
-        jira.login(username, password);
-
         final List<String> missing = new ArrayList<String>();
         final List<String> urls = new ArrayList<String>();
 
         for (Upgrade upgrade : upgrades) {
-            final Project project = jira.getProject(upgrade.getKey());
-
-            if (project == null) {
-                missing.add(upgrade.getKey());
-            }
+            final String key = upgrade.getKey();
 
             for (String version : upgrade.getVersions()) {
-                try {
-
-                    final Version ver = jira.getVersion(project, version);
-
-                    if (ver == null) {
-                        missing.add(project + ":" + version);
-                        continue;
-                    }
-
-                    urls.add(String.format("https://issues.apache.org/jira/sr/jira.issueviews:searchrequest-xml/temp/SearchRequest.xml?&pid=%s&status=5&status=6&fixfor=%s&tempMax=1000&reset=true&decorator=none", project.getId(), ver.getId()));
-                } catch (Exception e) {
-                }
+                urls.add("https://issues.apache.org/jira/sr/jira.issueviews:searchrequest-xml/temp/SearchRequest.xml?jqlQuery=project+%3D+" + key + "+AND+fixVersion+%3D+%22" + version + "%22+AND+status+in+%28Resolved%2C+Closed%29&tempMax=1000");
             }
         }
 

@@ -24,6 +24,9 @@ import org.apache.creadur.tentacles.Templates;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @version $Rev$ $Date$
@@ -43,13 +46,17 @@ public class Vote {
             }
         }
 
+        final Date end = new Date(System.currentTimeMillis() + TimeUnit.HOURS.toMillis(72));
+        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("E hh:mma z");
+        template.add("endDateUS", simpleDateFormat.format(end));
+
         final String email = template.apply();
 
         System.out.println(email);
 
-        final OutputStream out = Exec.write("ssh", "people.apache.org", "/usr/sbin/sendmail -it");
-        out.write(email.getBytes());
-        out.flush();
-        out.close();
+//        final OutputStream out = Exec.write("ssh", "people.apache.org", "/usr/sbin/sendmail -it");
+//        out.write(email.getBytes());
+//        out.flush();
+//        out.close();
     }
 }
