@@ -45,6 +45,7 @@ public class Deploy {
 
         Exec.cd(new File(dir + File.separator + Release.tomeeVersionName));
 
+        Exec.export("JAVA_HOME", System.getProperty("java.home"));
         Exec.export("MAVEN_OPTS", Release.mavenOpts);
         Exec.exec("mvn",
                 "-Darguments=-Dmaven.test.skip=true -DfailIfNoTests=false",
