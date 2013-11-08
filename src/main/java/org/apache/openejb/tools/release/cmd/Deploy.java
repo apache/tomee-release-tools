@@ -47,10 +47,16 @@ public class Deploy {
 
         Exec.export("JAVA_HOME", System.getProperty("java.home"));
         Exec.export("MAVEN_OPTS", Release.mavenOpts);
-        Exec.exec("mvn",
+        final int exec = Exec.exec("mvn",
                 "-Darguments=-Dmaven.test.skip=true -DfailIfNoTests=false",
                 "release:perform",
                 format("-DconnectionUrl=scm:svn:%s", tag)
         );
+
+        if (exec == 0) {
+            Exec.exec("/usr/bin/say", "Deploy Succeeded");
+        } else {
+            Exec.exec("/usr/bin/say", "Deploy Failed");
+        }
     }
 }
