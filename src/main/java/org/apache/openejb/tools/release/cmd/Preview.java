@@ -16,10 +16,12 @@
  */
 package org.apache.openejb.tools.release.cmd;
 
+import org.apache.creadur.tentacles.Platform;
+import org.apache.creadur.tentacles.TemplateBuilder;
+import org.apache.creadur.tentacles.Templates;
 import org.apache.openejb.tools.release.Command;
 import org.apache.openejb.tools.release.Release;
 import org.apache.openejb.tools.release.util.Exec;
-import org.apache.creadur.tentacles.Templates;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -33,7 +35,7 @@ public class Preview {
 
     public static void main(String... args) throws IOException {
 
-        final Templates.Builder template = Templates.template("preview.vm");
+        final TemplateBuilder template = new Templates(Platform.aPlatform()).template("preview.vm");
 
         for (Field field : Release.class.getFields()) {
             try {

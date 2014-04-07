@@ -16,13 +16,13 @@
  */
 package org.apache.openejb.tools.release.cmd;
 
+import org.apache.creadur.tentacles.Platform;
+import org.apache.creadur.tentacles.TemplateBuilder;
+import org.apache.creadur.tentacles.Templates;
 import org.apache.openejb.tools.release.Command;
 import org.apache.openejb.tools.release.Release;
-import org.apache.openejb.tools.release.util.Exec;
-import org.apache.creadur.tentacles.Templates;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -36,7 +36,7 @@ public class Vote {
 
     public static void main(String[] args) throws IOException {
 
-        final Templates.Builder template = Templates.template("vote.vm");
+        final TemplateBuilder template = new Templates(Platform.aPlatform()).template("vote.vm");
 
         for (Field field : Release.class.getFields()) {
             try {

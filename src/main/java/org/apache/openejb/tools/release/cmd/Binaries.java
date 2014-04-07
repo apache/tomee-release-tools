@@ -16,6 +16,7 @@
  */
 package org.apache.openejb.tools.release.cmd;
 
+import org.apache.creadur.tentacles.Platform;
 import org.apache.openejb.tools.release.Command;
 import org.apache.openejb.tools.release.Release;
 import org.apache.openejb.tools.release.util.Files;
@@ -61,7 +62,7 @@ public class Binaries {
 
         System.out.println("Downloads: " + dir.getAbsolutePath());
 
-        final NexusClient client = new NexusClient();
+        final NexusClient client = new NexusClient(Platform.aPlatform());
         final UriSet all = new UriSet(client.crawl(repo));
 
         UriSet binaries = all.include(".*\\.(zip|gz|war).*");

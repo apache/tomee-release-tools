@@ -16,12 +16,14 @@
  */
 package org.apache.openejb.tools.release.cmd;
 
+import org.apache.creadur.tentacles.Platform;
 import org.apache.openejb.tools.release.Command;
 import org.apache.openejb.tools.release.Commit;
 import org.apache.openejb.tools.release.Release;
 import org.apache.openejb.tools.release.util.Exec;
 import org.apache.openejb.tools.release.util.ObjectList;
 import org.apache.creadur.tentacles.Templates;
+import org.apache.creadur.tentacles.TemplateBuilder;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
@@ -50,7 +52,7 @@ public class Revote {
         commits.removeAll(message);
         commits = commits.ascending("revision");
 
-        final Templates.Builder template = Templates.template("revote.vm");
+        final TemplateBuilder template = new Templates(Platform.aPlatform()).template("revote.vm");
 
         template.add("commits", commits);
 

@@ -13,7 +13,7 @@
   </task>
 
   <task summary="Ensure Build is passing">
-    http://ci.apache.org/builders/openejb-trunk-ubuntu
+    http://http://ci.apache.org/builders/tomee-trunk-ubuntu
   </task>
   <task summary="Ensure JIRAs have been filed for commits" commands="ReviewCommits"/>
   <task summary="Update fixVersions for JIRAs used in svn commits" commands="UpdateJiras" />
