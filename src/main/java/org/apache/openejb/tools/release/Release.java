@@ -23,9 +23,7 @@ import org.apache.openejb.tools.release.util.Options;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,13 +32,13 @@ import java.util.regex.Pattern;
  */
 public class Release {
 
-    public static String openejbVersion = "4.5.2";
-    public static String tomeeVersion = "1.5.2";
+    public static String openejbVersion = "4.6.0.1";
+    public static String tomeeVersion = "1.6.0.1";
 
     public static String openejbVersionName = "openejb-${openejbVersion}";
     public static String tomeeVersionName = "tomee-${tomeeVersion}";
 
-    public static String trunk = "https://svn.apache.org/repos/asf/tomee/tomee/branches/tomee-1.5.x/";
+    public static String trunk = "https://svn.apache.org/repos/asf/tomee/tomee/branches/tomee-1.6.0.1/";
     public static String branches = "https://svn.apache.org/repos/asf/tomee/tomee/branches/";
     public static String tags = "https://svn.apache.org/repos/asf/tomee/tomee/tags/";
     public static String tckBranches = "https://svn.apache.org/repos/tck/tomee-tck/branches/";
@@ -49,8 +47,8 @@ public class Release {
     public static String staging = "https://repository.apache.org/content/repositories/orgapachetomee-008";
     public static String build = "008";
 
-    public static String ciBuilder = "openejb-4.5.1";
-    public static String ciBuildNumber = "1";
+    //public static String ciBuilder = "openejb-4.5.1";
+    //public static String ciBuildNumber = "1";
 
 
     public static String builddir = "/tmp/downloads";
