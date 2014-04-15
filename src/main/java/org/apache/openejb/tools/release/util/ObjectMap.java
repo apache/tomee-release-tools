@@ -19,21 +19,16 @@ package org.apache.openejb.tools.release.util;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.AbstractMap;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
-* @version $Rev$ $Date$
-*/
+ * @version $Rev$ $Date$
+ */
 public class ObjectMap extends AbstractMap<String, Object> {
 
     private final Object object;
-    private Map<String,Entry<String,Object>> attributes;
-    private Set<Entry<String,Object>> entries;
+    private Map<String, Entry<String, Object>> attributes;
+    private Set<Entry<String, Object>> entries;
 
     public ObjectMap(Object object) {
         this(object.getClass(), object);
@@ -101,7 +96,7 @@ public class ObjectMap extends AbstractMap<String, Object> {
         return entries;
     }
 
-    public class FieldEntry implements Entry<String, Object>  {
+    public class FieldEntry implements Entry<String, Object> {
 
         private final Field field;
 

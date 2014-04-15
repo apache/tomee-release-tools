@@ -78,7 +78,8 @@ public class AdvanceVersions {
                 final String artifactId = lexer.peek("<artifactId>", "</artifactId>");
                 final String version = lexer.peek("<version>", "</version>");
                 lexer.unmark();
-                if (version != null && version.contains("-SNAPSHOT")) versions.add(String.format("%s:%s:%s", groupId, artifactId, version));
+                if (version != null && version.contains("-SNAPSHOT"))
+                    versions.add(String.format("%s:%s:%s", groupId, artifactId, version));
             }
 
             read.close();
@@ -118,6 +119,7 @@ public class AdvanceVersions {
             out.write(i);
         }
         out.close();
-        if (!tmp.renameTo(dest)) throw new RuntimeException(String.format("Rename failed: mv \"%s\" \"%s\"", tmp.getAbsolutePath(), dest.getAbsolutePath()));
+        if (!tmp.renameTo(dest))
+            throw new RuntimeException(String.format("Rename failed: mv \"%s\" \"%s\"", tmp.getAbsolutePath(), dest.getAbsolutePath()));
     }
 }

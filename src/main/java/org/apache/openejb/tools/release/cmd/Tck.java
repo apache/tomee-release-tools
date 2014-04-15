@@ -159,6 +159,7 @@ public class Tck {
             out.write(i);
         }
         out.close();
-        if (!tmp.renameTo(dest)) throw new RuntimeException(String.format("Rename failed: mv \"%s\" \"%s\"", tmp.getAbsolutePath(), dest.getAbsolutePath()));
+        if (!tmp.renameTo(dest))
+            throw new RuntimeException(String.format("Rename failed: mv \"%s\" \"%s\"", tmp.getAbsolutePath(), dest.getAbsolutePath()));
     }
 }

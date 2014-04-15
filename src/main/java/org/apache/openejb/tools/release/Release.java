@@ -38,14 +38,14 @@ public class Release {
     public static String openejbVersionName = "openejb-${openejbVersion}";
     public static String tomeeVersionName = "tomee-${tomeeVersion}";
 
-    public static String trunk = "https://svn.apache.org/repos/asf/tomee/tomee/branches/tomee-1.6.0.1/";
+    public static String trunk = "StagingRepositories/";
     public static String branches = "https://svn.apache.org/repos/asf/tomee/tomee/branches/";
     public static String tags = "https://svn.apache.org/repos/asf/tomee/tomee/tags/";
     public static String tckBranches = "https://svn.apache.org/repos/tck/tomee-tck/branches/";
     public static String tckTrunk = "https://svn.apache.org/repos/tck/tomee-tck/trunk";
 
-    public static String staging = "https://repository.apache.org/content/repositories/orgapachetomee-008";
-    public static String build = "008";
+    public static String staging = "https://dist.apache.org/repos/dist/dev/tomee/staging-1012/";
+    public static String build = "1012";
 
     //public static String ciBuilder = "openejb-4.5.1";
     //public static String ciBuildNumber = "1";
@@ -54,13 +54,13 @@ public class Release {
     public static String builddir = "/tmp/downloads";
     public static String workdir = "/tmp/release";
 
-    public static String mavenOpts = "-Xmx2048m -XX:MaxPermSize=1024m";
+    public static String mavenOpts = "-Xmx1024m -XX:MaxPermSize=512m";
 
     public static String user = System.getProperty("user.name");
     public static String to = "dev@tomee.apache.org";
     public static String from = "${user}@apache.org";
 
-    public static String lastReleaseDate = "2012-09-28";
+    public static String lastReleaseDate = "2014-04-15";
 
     private static final Pattern PATTERN = Pattern.compile("(\\$\\{)(\\w+)(})");
 
@@ -122,7 +122,6 @@ public class Release {
 
     public static Map<String, Object> map() {
         return new ObjectMap(Release.class);
-
 
 
 //        @Override

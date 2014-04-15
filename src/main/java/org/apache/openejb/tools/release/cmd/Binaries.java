@@ -16,12 +16,12 @@
  */
 package org.apache.openejb.tools.release.cmd;
 
+import org.apache.creadur.tentacles.NexusClient;
 import org.apache.creadur.tentacles.Platform;
 import org.apache.openejb.tools.release.Command;
 import org.apache.openejb.tools.release.Release;
 import org.apache.openejb.tools.release.util.Files;
 import org.apache.openejb.tools.release.util.IO;
-import org.apache.creadur.tentacles.NexusClient;
 import org.apache.xbean.finder.UriSet;
 
 import java.io.File;
@@ -94,7 +94,7 @@ public class Binaries {
         final Enumeration<? extends ZipEntry> enumeration = zip.entries();
         while (enumeration.hasMoreElements()) {
             ZipEntry entry = enumeration.nextElement();
-            out.printf("%1$7s %2$2s %3$2s", entry.getSize(), format.format(entry.getTime()), entry.getName() );
+            out.printf("%1$7s %2$2s %3$2s", entry.getSize(), format.format(entry.getTime()), entry.getName());
             out.println();
         }
     }

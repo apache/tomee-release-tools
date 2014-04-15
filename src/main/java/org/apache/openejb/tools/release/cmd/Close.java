@@ -17,14 +17,8 @@
 package org.apache.openejb.tools.release.cmd;
 
 import org.apache.maven.settings.Server;
-import org.apache.maven.settings.Settings;
 import org.apache.openejb.tools.release.*;
-import org.apache.openejb.tools.release.util.Files;
-import org.apache.openejb.tools.release.util.IO;
 import org.apache.openejb.tools.release.util.ObjectList;
-import org.codehaus.swizzle.stream.StreamLexer;
-
-import java.io.File;
 
 /**
  * @version $Rev$ $Date$

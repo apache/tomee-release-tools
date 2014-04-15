@@ -28,7 +28,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 
-import static java.lang.String.format;
 import static org.apache.openejb.tools.release.util.Exec.cd;
 import static org.apache.openejb.tools.release.util.Exec.exec;
 import static org.apache.openejb.tools.release.util.Files.collect;
@@ -107,6 +106,7 @@ public class FinalizeVersions {
             out.write(i);
         }
         out.close();
-        if (!tmp.renameTo(dest)) throw new RuntimeException(String.format("Rename failed: mv \"%s\" \"%s\"", tmp.getAbsolutePath(), dest.getAbsolutePath()));
+        if (!tmp.renameTo(dest))
+            throw new RuntimeException(String.format("Rename failed: mv \"%s\" \"%s\"", tmp.getAbsolutePath(), dest.getAbsolutePath()));
     }
 }

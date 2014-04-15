@@ -43,10 +43,13 @@ public class Deploy {
 
         Exec.exec("svn", "co", tag);
 
-        Exec.cd(new File(dir + File.separator + Release.tomeeVersionName));
+        Exec.cd(new File(dir, Release.tomeeVersionName));
 
         Exec.export("JAVA_HOME", System.getProperty("java.home"));
         Exec.export("MAVEN_OPTS", Release.mavenOpts);
+
+        //mvn -rf :bval-tomee -Darguments=-Dmaven.test.skip=true -DfailIfNoTests=false release:perform -DconnectionUrl=scm:svn:https://svn.apache.org/repos/asf/tomee/tomee/branches/tomee-1.6.0.1
+
         final int exec = Exec.exec("mvn",
                 "-Darguments=-Dmaven.test.skip=true -DfailIfNoTests=false",
                 "release:perform",
@@ -54,9 +57,11 @@ public class Deploy {
         );
 
         if (exec == 0) {
-            Exec.exec("/usr/bin/say", "Deploy Succeeded");
+            //try{Exec.exec("/usr/bin/say", "Deploy Succeeded");}catch (Exception e){}
+            System.out.println("Deploy Succeeded");
         } else {
-            Exec.exec("/usr/bin/say", "Deploy Failed");
+            //try{Exec.exec("/usr/bin/say", "Deploy Failed");}catch (Exception e){}
+            System.out.println("Deploy Failed");
         }
     }
 }

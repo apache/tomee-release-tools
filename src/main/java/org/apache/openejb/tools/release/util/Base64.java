@@ -37,21 +37,21 @@ import java.io.IOException;
 
 /**
  * Provides Base64 encoding and decoding as defined by RFC 2045.
- *
+ * <p/>
  * <p>This class implements section <cite>6.8. Base64 Content-Transfer-Encoding</cite>
  * from RFC 2045 <cite>Multipurpose Internet Mail Extensions (MIME) Part One:
  * Format of Internet Message Bodies</cite> by Freed and Borenstein.</p>
  *
- * @see <a href="http://www.ietf.org/rfc/rfc2045.txt">RFC 2045</a>
  * @author Apache Software Foundation
- * @since 1.0-dev
  * @version $Id: Base64.java 1153797 2011-08-04 09:09:44Z rmannibucau $
+ * @see <a href="http://www.ietf.org/rfc/rfc2045.txt">RFC 2045</a>
+ * @since 1.0-dev
  */
 public class Base64 {
 
     /**
      * Chunk size per RFC 2045 section 6.8.
-     *
+     * <p/>
      * <p>The {@value} character limit does not count the trailing CRLF, but counts
      * all other characters, including any equal signs.</p>
      *
@@ -189,7 +189,7 @@ public class Base64 {
      *
      * @param arrayOctect byte array to test
      * @return <code>true</code> if all bytes are valid characters in the Base64
-     *         alphabet or if the byte array is empty; false, otherwise
+     * alphabet or if the byte array is empty; false, otherwise
      */
     public static boolean isArrayByteBase64(byte[] arrayOctect) {
 
@@ -240,9 +240,9 @@ public class Base64 {
      *
      * @param pObject Object to decode
      * @return An object (of type byte[]) containing the
-     *         binary data which corresponds to the byte[] supplied.
+     * binary data which corresponds to the byte[] supplied.
      * @throws IOException if the parameter supplied is not
-     *                          of type byte[]
+     *                     of type byte[]
      */
     public Object decode(Object pObject) throws IOException {
         if (!(pObject instanceof byte[])) {
@@ -267,8 +267,8 @@ public class Base64 {
      * chunking the output into 76 character blocks.
      *
      * @param binaryData Array containing binary data to encode.
-     * @param isChunked if <code>true</code> this encoder will chunk
-     *                  the base64 output into 76 character blocks
+     * @param isChunked  if <code>true</code> this encoder will chunk
+     *                   the base64 output into 76 character blocks
      * @return Base64-encoded data.
      */
     public static byte[] encodeBase64(byte[] binaryData, boolean isChunked) {
@@ -477,7 +477,7 @@ public class Base64 {
      * Discards any whitespace from a base-64 encoded block.
      *
      * @param data The base-64 encoded data to discard the whitespace
-     * from.
+     *             from.
      * @return The data, less whitespace (see RFC 2045).
      */
     static byte[] discardWhitespace(byte[] data) {
@@ -540,9 +540,9 @@ public class Base64 {
      *
      * @param pObject Object to encode
      * @return An object (of type byte[]) containing the
-     *         base64 encoded data which corresponds to the byte[] supplied.
+     * base64 encoded data which corresponds to the byte[] supplied.
      * @throws IOException if the parameter supplied is not
-     *                          of type byte[]
+     *                     of type byte[]
      */
     public Object encode(Object pObject) throws IOException {
         if (!(pObject instanceof byte[])) {

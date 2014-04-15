@@ -17,15 +17,7 @@
 package org.apache.openejb.tools.release.util;
 
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @version $Rev: 1153797 $ $Date: 2011-08-04 02:09:44 -0700 (Thu, 04 Aug 2011) $
@@ -57,7 +49,7 @@ public class References {
         for (Node node : nodes.values()) {
             for (String name : visitor.getReferences((T) node.object)) {
                 Node ref = nodes.get(name);
-                if (ref == null) throw new IllegalArgumentException("No such object in list: "+name);
+                if (ref == null) throw new IllegalArgumentException("No such object in list: " + name);
                 node.references.add(ref);
                 node.initialReferences.add(ref);
             }
@@ -109,9 +101,9 @@ public class References {
             }
         }
 
-        List  sortedList= new ArrayList(nodes.size());
+        List sortedList = new ArrayList(nodes.size());
         Node currentNode = rootNode.next;
-        while(currentNode != rootNode) {
+        while (currentNode != rootNode) {
             sortedList.add(currentNode.object);
             currentNode = currentNode.next;
         }
@@ -136,8 +128,8 @@ public class References {
 
     private static void swap(Node shouldAfterNode, Node shouldBeforeNode, Node rootNode) {
         Node currentNode = shouldBeforeNode;
-        while(currentNode.next != rootNode) {
-            if(currentNode.next == shouldAfterNode) {
+        while (currentNode.next != rootNode) {
+            if (currentNode.next == shouldAfterNode) {
                 return;
             }
             currentNode = currentNode.next;
@@ -228,7 +220,7 @@ public class References {
         public Circuit(List<Node> nodes) {
             this.nodes = nodes;
             atomic = new ArrayList<Node>(nodes);
-            atomic.remove(atomic.size()-1);
+            atomic.remove(atomic.size() - 1);
             Collections.sort(atomic);
         }
 

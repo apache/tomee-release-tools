@@ -39,7 +39,7 @@ public class UpdateVersions {
 
     public static void main(String... args) throws Exception {
 
-        final File workingCopy = cd(new File("/Users/dblevins/work/openejb-4.0.0-branch"));
+        final File workingCopy = cd(new File("/home/andy/tck/release-tools/tomee-1.6.0.1.staging"));
 
         updateVersions2(workingCopy);
 
@@ -156,6 +156,7 @@ public class UpdateVersions {
             out.write(i);
         }
         out.close();
-        if (!tmp.renameTo(dest)) throw new RuntimeException(String.format("Rename failed: mv \"%s\" \"%s\"", tmp.getAbsolutePath(), dest.getAbsolutePath()));
+        if (!tmp.renameTo(dest))
+            throw new RuntimeException(String.format("Rename failed: mv \"%s\" \"%s\"", tmp.getAbsolutePath(), dest.getAbsolutePath()));
     }
 }

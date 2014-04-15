@@ -19,12 +19,10 @@ package org.apache.openejb.tools.release;
 import org.apache.maven.settings.Settings;
 import org.apache.maven.settings.io.xpp3.SettingsXpp3Reader;
 import org.apache.openejb.tools.release.util.Files;
-import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 
 /**
  * Utility class for Maven.
@@ -50,7 +48,6 @@ public class Maven {
         }
         return settings;
     }
-
 
 
 }

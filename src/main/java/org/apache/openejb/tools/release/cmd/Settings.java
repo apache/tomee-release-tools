@@ -35,7 +35,7 @@ public class Settings {
     @Command
     public static class Save {
         public static void main(String... args) throws IOException {
-            final Map<String,Object> map = Release.map();
+            final Map<String, Object> map = Release.map();
 
             final File file = Files.file(System.getProperty("user.home"), ".tomee-release.properties");
             final OutputStream write = IO.write(file);

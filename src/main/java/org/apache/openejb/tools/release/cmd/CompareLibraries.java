@@ -23,11 +23,7 @@ import org.apache.openejb.tools.release.util.Files;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -150,7 +146,7 @@ public class CompareLibraries {
         for (ZipEntry entry : list) {
             if (entry.isDirectory()) continue;
             if (!entry.getName().endsWith(".jar")) continue;
-            files.add(new FileData(new File(entry.getName()), entry.getSize() * 0.001 ));
+            files.add(new FileData(new File(entry.getName()), entry.getSize() * 0.001));
         }
         return files;
     }

@@ -25,11 +25,7 @@ import org.apache.openejb.tools.release.util.Exec;
 import org.apache.openejb.tools.release.util.Join;
 import org.apache.openejb.tools.release.util.ObjectList;
 import org.apache.openejb.tools.release.util.Options;
-import org.codehaus.swizzle.jira.Issue;
-import org.codehaus.swizzle.jira.IssueType;
-import org.codehaus.swizzle.jira.Jira;
-import org.codehaus.swizzle.jira.MapObject;
-import org.codehaus.swizzle.jira.Version;
+import org.codehaus.swizzle.jira.*;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;

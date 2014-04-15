@@ -29,25 +29,25 @@ public class Join {
     public static final ClassCallback CLASS_CALLBACK = new ClassCallback();
 
     public static String join(String delimiter, Collection collection) {
-        if(collection.size() == 0) {
+        if (collection.size() == 0) {
             return "";
         }
         StringBuilder sb = new StringBuilder();
         for (Object obj : collection) {
             sb.append(obj).append(delimiter);
         }
-        return  sb.substring(0, sb.length()-delimiter.length());
+        return sb.substring(0, sb.length() - delimiter.length());
     }
 
     public static String join(String delimiter, Object... collection) {
-        if(collection.length ==0) {
+        if (collection.length == 0) {
             return "";
         }
         StringBuilder sb = new StringBuilder();
         for (Object obj : collection) {
             sb.append(obj).append(delimiter);
         }
-        return  sb.substring(0, sb.length()-delimiter.length());
+        return sb.substring(0, sb.length() - delimiter.length());
     }
 
     public static <T> String join(String delimiter, NameCallback<T> nameCallback, T... collection) {

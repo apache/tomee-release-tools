@@ -18,11 +18,7 @@ package org.apache.openejb.tools.release.util;
 
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Pattern;
 
 /**
@@ -127,7 +123,7 @@ public class ObjectList<E> extends ArrayList<E> {
 
     /**
      * Returns returns a new list with both lists added together.
-     *
+     * <p/>
      * http://en.wikipedia.org/wiki/Set#Unions
      *
      * @param list
@@ -146,9 +142,9 @@ public class ObjectList<E> extends ArrayList<E> {
 
     /**
      * Returns a new list containing the common items from this list and the specified list.
-     *
+     * <p/>
      * Put another way, returns only the items in a and b that overlap.
-     *
+     * <p/>
      * http://en.wikipedia.org/wiki/Set#Intersections
      *
      * @param list
@@ -177,7 +173,7 @@ public class ObjectList<E> extends ArrayList<E> {
 
     /**
      * Returns a new list containing only the items from list a not present in list b.
-     *
+     * <p/>
      * http://en.wikipedia.org/wiki/Set#Complements
      *
      * @param list
@@ -194,13 +190,13 @@ public class ObjectList<E> extends ArrayList<E> {
 
     /**
      * Returns a new list containing only the items from list a not present in list b.
-     *
+     * <p/>
      * This is logically equivalent to:
-     *
+     * <p/>
      * a.union(b).subtract(a.common(b))
-     *
+     * <p/>
      * Though this method is more efficient.
-     *
+     * <p/>
      * http://en.wikipedia.org/wiki/Symmetric_difference
      *
      * @param list

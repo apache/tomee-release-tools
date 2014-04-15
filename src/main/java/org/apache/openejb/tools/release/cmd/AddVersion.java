@@ -28,17 +28,14 @@ import org.apache.openejb.tools.release.util.IO;
 import org.codehaus.swizzle.stream.FixedTokenReplacementInputStream;
 import org.codehaus.swizzle.stream.StreamTokenHandler;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
  * TODO Add the next revision
+ *
  * @version $Rev$ $Date$
  */
 @Command
@@ -51,11 +48,11 @@ public class AddVersion {
     /**
      * can be ran in 2 cases:
      * 1) replacing -SNAPSHOT
-     *  -> arg = set-snapshot
+     * -> arg = set-snapshot
      * 2) setting new versions
-     *  -> to inc last digit and add snapshot to the version: arg = replace-snapshot
-     *  -> to simply inc last digit no arg is enough
-     *
+     * -> to inc last digit and add snapshot to the version: arg = replace-snapshot
+     * -> to simply inc last digit no arg is enough
+     * <p/>
      * Note: version is replace like a sed so if another lib is using this version it will be replaced too
      *
      * @param args
@@ -73,11 +70,11 @@ public class AddVersion {
         }
 
         final File workingDir = new File(Release.builddir, Release.openejbVersionName);
-        final String[][] replacements = new String[][] {
-                new String[] { currentVersion(Release.openejbVersion, replaceSnapshot),
-                                nextVersion("openejb next version", Release.openejbVersion, replaceSnapshot, setSnapshot) },
-                new String[] { currentVersion(Release.tomeeVersion, replaceSnapshot),
-                                nextVersion("openejb next version", Release.tomeeVersion, replaceSnapshot, setSnapshot) }
+        final String[][] replacements = new String[][]{
+                new String[]{currentVersion(Release.openejbVersion, replaceSnapshot),
+                        nextVersion("openejb next version", Release.openejbVersion, replaceSnapshot, setSnapshot)},
+                new String[]{currentVersion(Release.tomeeVersion, replaceSnapshot),
+                        nextVersion("openejb next version", Release.tomeeVersion, replaceSnapshot, setSnapshot)}
         };
 
         // we hardcode the tomee or openejb version in some java, properties, pom (of course ;))...so simply take eveything we can
@@ -86,12 +83,14 @@ public class AddVersion {
         final Collection<File> files = FileUtils.listFiles(workingDir,
                 new AndFileFilter(
                         new AndFileFilter(
-                            new NotFileFilter(new SuffixFileFilter(".gif", IOCase.INSENSITIVE)),
-                            new NotFileFilter(new SuffixFileFilter(".png", IOCase.INSENSITIVE))),
-                        new NotFileFilter(new SuffixFileFilter(".exe", IOCase.INSENSITIVE))),
+                                new NotFileFilter(new SuffixFileFilter(".gif", IOCase.INSENSITIVE)),
+                                new NotFileFilter(new SuffixFileFilter(".png", IOCase.INSENSITIVE))),
+                        new NotFileFilter(new SuffixFileFilter(".exe", IOCase.INSENSITIVE))
+                ),
                 new AndFileFilter(
                         new NotFileFilter(new NameFileFilter(".svn", IOCase.INSENSITIVE)),
-                        new NotFileFilter(new NameFileFilter("target", IOCase.INSENSITIVE))));
+                        new NotFileFilter(new NameFileFilter("target", IOCase.INSENSITIVE)))
+        );
 
         for (File file : files) {
             for (String[] replacement : replacements) {

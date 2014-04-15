@@ -23,29 +23,16 @@ import org.apache.openejb.tools.release.Maven;
 import org.apache.openejb.tools.release.Release;
 import org.apache.openejb.tools.release.util.Exec;
 import org.apache.openejb.tools.release.util.IO;
-import org.apache.openejb.tools.release.util.ObjectList;
 import org.apache.openejb.tools.release.util.Options;
 import org.codehaus.swizzle.jira.Issue;
 import org.codehaus.swizzle.jira.Jira;
-import org.codehaus.swizzle.jira.Status;
 import org.codehaus.swizzle.jira.Version;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Unmarshaller;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Vector;
-import java.util.concurrent.Semaphore;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -71,7 +58,7 @@ public class UpdateJiras {
 //            System.out.println(jiraKey);
 //        }
 
-        updateJiraFixVersions("http://svn.apache.org/repos/asf/tomee/tomee/branches/tomee-1.5.2", "1417791","HEAD", "1.5.2" ,"4.5.2");
+        updateJiraFixVersions("http://svn.apache.org/repos/asf/tomee/tomee/branches/tomee-1.5.2", "1417791", "HEAD", "1.5.2", "4.5.2");
     }
 
     static final Pattern pattern = Pattern.compile("((OPENEJB|TOMEE)-[0-9]+)");
@@ -92,7 +79,8 @@ public class UpdateJiras {
         final Version openejb = state.jira.getVersion("OPENEJB", openejbVersion);
 
 
-        jiras: for (String key : keys) {
+        jiras:
+        for (String key : keys) {
             if ("TOMEE-1".equals(key)) continue;
 
             final Issue issue = state.jira.getIssue(key);

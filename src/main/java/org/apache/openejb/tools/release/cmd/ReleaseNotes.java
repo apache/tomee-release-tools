@@ -44,6 +44,6 @@ public class ReleaseNotes {
             }
         }
 
-        org.codehaus.swizzle.jirareport.Main.main((String[]) argsList.toArray(new String[] {}));
+        org.codehaus.swizzle.jirareport.Main.main((String[]) argsList.toArray(new String[]{}));
     }
 }
