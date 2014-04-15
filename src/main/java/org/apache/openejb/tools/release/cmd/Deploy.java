@@ -50,7 +50,7 @@ public class Deploy {
 
         //mvn -rf :bval-tomee -Darguments=-Dmaven.test.skip=true -DfailIfNoTests=false release:perform -DconnectionUrl=scm:svn:https://svn.apache.org/repos/asf/tomee/tomee/branches/tomee-1.6.0.1
 
-        final int exec = Exec.exec("mvn",
+        final int exec = Exec.exec("mvn","-T 4C",
                 "-Darguments=-Dmaven.test.skip=true -DfailIfNoTests=false",
                 "release:perform",
                 format("-DconnectionUrl=scm:svn:%s", tag)
