@@ -50,7 +50,7 @@ public class ReviewCommits {
 
     public static void main(String... args) throws Exception {
 
-        final String tag = Release.tags + Release.openejbVersionName;
+        final String tag = Release.tags + Release.tomeeVersionName;
 
         final InputStream in = Exec.read("svn", "log", "--verbose", "--xml", "-rHEAD:{" + Release.lastReleaseDate + "}", tag);
 
