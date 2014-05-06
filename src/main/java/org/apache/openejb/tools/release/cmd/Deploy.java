@@ -35,7 +35,7 @@ public class Deploy {
 
         // TODO Look for gpg on the path, report error if not found
 
-        final String tag = Release.branches + Release.tomeeVersionName;
+        final String tag = Release.tags + Release.tomeeVersionName;
 
         final File dir = new File(Release.workdir);
         Files.mkdir(dir);
@@ -48,9 +48,9 @@ public class Deploy {
         Exec.export("JAVA_HOME", System.getProperty("java.home"));
         Exec.export("MAVEN_OPTS", Release.mavenOpts);
 
-        //mvn -rf :bval-tomee -Darguments=-Dmaven.test.skip=true -DfailIfNoTests=false release:perform -DconnectionUrl=scm:svn:https://svn.apache.org/repos/asf/tomee/tomee/branches/tomee-1.6.0.1
+        //mvn -rf :bval-tomee -Darguments=-Dmaven.test.skip=true -DfailIfNoTests=false release:perform -DconnectionUrl=scm:svn:https://svn.apache.org/repos/asf/tomee/tomee/tags/tomee-1.6.0.2
 
-        final int exec = Exec.exec("mvn","-T 4C",
+        final int exec = Exec.exec("mvn",
                 "-Darguments=-Dmaven.test.skip=true -DfailIfNoTests=false",
                 "release:perform",
                 format("-DconnectionUrl=scm:svn:%s", tag)
