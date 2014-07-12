@@ -6,7 +6,7 @@ From: $from
 
 SVN Tag:
 
- $tags$openejbVersionName/
+ $tags$tomeeVersionName/
 
 Maven Repo:
 
@@ -14,9 +14,10 @@ Maven Repo:
 
 Binaries & Source:
 
- http://people.apache.org/~$user/staging-$build/$openejbVersionName/
+ https://dist.apache.org/repos/dist/dev/tomee/staging-$build/$tomeeVersionName/
 
 Legal:
 
- http://people.apache.org/~$user/staging-$build/legal/archives.html
+ https://dist.apache.org/repos/dist/dev/tomee/staging-$build/legal/archives.html
 
+Vote will be open for 72 hours or as needed.
