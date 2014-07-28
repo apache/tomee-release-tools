@@ -38,11 +38,11 @@ public class CompareLibraries {
 
         // /Users/dblevins/.m2/repository/org/apache/openejb/apache-tomee/1.0.0/apache-tomee-1.0.0-webprofile.zip
 
-        diff(repository, "apache-tomee", "1.6.0", "1.6.0.1", "webprofile");
-        diff(repository, "apache-tomee", "1.6.0", "1.6.0.1", "jaxrs");
-        diff(repository, "apache-tomee", "1.6.0", "1.6.0.1", "plus");
+        diff(repository, "apache-tomee", "1.6.0.2", "1.7.0", "webprofile");
+        diff(repository, "apache-tomee", "1.6.0.2", "1.7.0", "jaxrs");
+        diff(repository, "apache-tomee", "1.6.0.2", "1.7.0", "plus");
 
-        diff(repository, "openejb-standalone", "4.6.0", "4.6.0.1", null);
+        diff(repository, "openejb-standalone", "4.6.0.2", "4.7.0", null);
 
 
     }
