@@ -26,9 +26,9 @@ import org.apache.openejb.tools.release.util.ObjectList;
 @Command(dependsOn = Deploy.class)
 public class Close {
 
-    public static void main(String... args) throws Exception {
+    public static void main(final String... args) throws Exception {
 
-        Server server = Maven.settings.getServer("apache.releases.https");
+        final Server server = Maven.settings.getServer("apache.releases.https");
         final String user = server.getUsername();
         final String pass = server.getPassword();
 
@@ -38,7 +38,7 @@ public class Close {
         repositories = repositories.equals("profileName", "org.apache.tomee");
         repositories = repositories.descending("createdDate");
 
-        for (Repository repository : repositories) {
+        for (final Repository repository : repositories) {
             System.out.println(repository.getRepositoryURI());
         }
 

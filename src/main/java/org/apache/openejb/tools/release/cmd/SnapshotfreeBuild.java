@@ -28,7 +28,7 @@ import java.util.List;
  */
 public class SnapshotfreeBuild {
 
-    public static void main(String... args) throws Exception {
+    public static void main(final String... args) throws Exception {
 
         // TODO Look for gpg on the path, report error if not found
 
@@ -36,7 +36,7 @@ public class SnapshotfreeBuild {
         final File repository = Files.file(home, ".m2", "repository", "org", "apache", "openejb");
 
         final List<File> snapshots = Files.collect(repository, ".*SNAPSHOT.*");
-        for (File snapshot : snapshots) {
+        for (final File snapshot : snapshots) {
             if (!snapshot.isFile()) continue;
             if (!snapshot.delete()) {
                 System.out.println("Cannot delete snapshot: " + snapshot.getAbsolutePath());

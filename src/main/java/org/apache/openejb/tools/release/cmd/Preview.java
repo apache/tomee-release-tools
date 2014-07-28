@@ -33,14 +33,14 @@ import java.lang.reflect.Field;
 @Command(dependsOn = {Legal.class, Binaries.class})
 public class Preview {
 
-    public static void main(String... args) throws IOException {
+    public static void main(final String... args) throws IOException {
 
         final TemplateBuilder template = new Templates(Platform.aPlatform()).template("preview.vm");
 
-        for (Field field : Release.class.getFields()) {
+        for (final Field field : Release.class.getFields()) {
             try {
                 template.add(field.getName(), field.get(null));
-            } catch (IllegalAccessException e) {
+            } catch (final IllegalAccessException e) {
                 e.printStackTrace();
             }
         }

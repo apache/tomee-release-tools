@@ -31,14 +31,14 @@ import java.util.List;
  */
 @Command
 public class Help {
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         System.out.println("Commands: ");
         System.out.printf("   %-20s %s", "", "(depends on)");
         System.out.println();
 
         final List<Class<?>> commands = Commands.order(new ArrayList<Class<?>>(Main.commands.values()));
 
-        for (Class<?> command : commands) {
+        for (final Class<?> command : commands) {
             final List<String> dependencies = Commands.dependencies(command);
             System.out.printf("   %-20s %s", Commands.name(command), Join.join(", ", dependencies));
             System.out.println();
@@ -49,11 +49,11 @@ public class Help {
         System.out.printf("   %-20s %s", "", "(default)");
         System.out.println();
 
-        for (Field field : Release.class.getFields()) {
+        for (final Field field : Release.class.getFields()) {
             try {
                 System.out.printf("   %-20s %s", field.getName(), field.get(null));
                 System.out.println();
-            } catch (IllegalAccessException e) {
+            } catch (final IllegalAccessException e) {
             }
         }
 

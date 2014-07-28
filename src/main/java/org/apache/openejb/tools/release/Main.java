@@ -38,7 +38,7 @@ import java.util.Map;
 public class Main {
 
     static {
-        Logger root = Logger.getRootLogger();
+        final Logger root = Logger.getRootLogger();
         root.addAppender(new ConsoleAppender(new PatternLayout("%p - %m%n")));
         root.setLevel(Level.INFO);
     }
@@ -50,11 +50,11 @@ public class Main {
             final File file = JarLocation.jarLocation(Main.class);
             final AnnotationFinder finder = new AnnotationFinder(ClasspathArchive.archive(Main.class.getClassLoader(), file.toURI().toURL()));
 
-            for (Class<?> clazz : finder.findAnnotatedClasses(Command.class)) {
+            for (final Class<?> clazz : finder.findAnnotatedClasses(Command.class)) {
 
                 commands.put(Commands.name(clazz), clazz);
             }
-        } catch (MalformedURLException e) {
+        } catch (final MalformedURLException e) {
             e.printStackTrace();
         }
     }
@@ -71,11 +71,11 @@ public class Main {
 
     }
 
-    public static List<String> processSystemProperties(String[] args) {
+    public static List<String> processSystemProperties(final String[] args) {
         final List<String> list = new ArrayList<String>();
 
         // Read in and apply the properties specified on the command line
-        for (String arg : args) {
+        for (final String arg : args) {
             if (arg.startsWith("-D")) {
 
                 final String name = arg.substring(arg.indexOf("-D") + 2, arg.indexOf("="));

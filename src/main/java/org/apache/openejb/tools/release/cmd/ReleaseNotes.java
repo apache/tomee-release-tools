@@ -29,17 +29,17 @@ import java.util.List;
 @Command
 public class ReleaseNotes {
 
-    public static void main(String[] args) throws Throwable {
-        List<String> argsList = new ArrayList<String>();
+    public static void main(final String[] args) throws Throwable {
+        final List<String> argsList = new ArrayList<String>();
 
         // lets add the template as the parameter
         argsList.add("release-notes-html.vm");
 
         // then add system properties to get values replaced in the template
-        for (Field field : Release.class.getFields()) {
+        for (final Field field : Release.class.getFields()) {
             try {
                 argsList.add("-D" + field.getName() + "=" + field.get(null));
-            } catch (IllegalAccessException e) {
+            } catch (final IllegalAccessException e) {
                 e.printStackTrace();
             }
         }

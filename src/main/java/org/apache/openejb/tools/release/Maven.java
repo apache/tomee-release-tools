@@ -38,11 +38,11 @@ public class Maven {
 
     public static Settings getMavenSettings() {
         Settings settings = null;
-        SettingsXpp3Reader reader = new SettingsXpp3Reader();
+        final SettingsXpp3Reader reader = new SettingsXpp3Reader();
         try {
             settings = reader.read(new BufferedInputStream(new FileInputStream(getMavenSettingsFile())));
 
-        } catch (Exception e) {
+        } catch (final Exception e) {
             System.err.println("Can't load Maven settings file: " + getMavenSettingsFile());
             e.printStackTrace();
         }

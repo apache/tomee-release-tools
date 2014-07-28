@@ -37,7 +37,7 @@ import static org.apache.openejb.tools.release.util.Files.collect;
 @Command(dependsOn = Close.class)
 public class UpdateVersions {
 
-    public static void main(String... args) throws Exception {
+    public static void main(final String... args) throws Exception {
 
         final File workingCopy = cd(new File("/home/andy/tck/release-tools/tomee-1.6.0.1.staging"));
 
@@ -45,11 +45,11 @@ public class UpdateVersions {
 
     }
 
-    private static void updateVersions(File workingCopy) throws IOException {
+    private static void updateVersions(final File workingCopy) throws IOException {
 
         final List<File> files = collect(workingCopy, ".*pom.xml");
 
-        for (File file : files) {
+        for (final File file : files) {
             if (file.getAbsolutePath().contains("/maven/")) continue;
             if (file.getAbsolutePath().contains("/examples/")) continue;
 
@@ -101,11 +101,11 @@ public class UpdateVersions {
 
     }
 
-    private static void updateVersions2(File workingCopy) throws IOException {
+    private static void updateVersions2(final File workingCopy) throws IOException {
 
         final List<File> files = collect(workingCopy, ".*pom.xml");
 
-        for (File file : files) {
+        for (final File file : files) {
             if (!file.getAbsolutePath().contains("/examples/")) continue;
 
             InputStream in = IO.read(file);
@@ -146,7 +146,7 @@ public class UpdateVersions {
 
     }
 
-    private static void update(File dest, InputStream in) throws IOException {
+    private static void update(final File dest, final InputStream in) throws IOException {
         final File tmp = new File(dest.getAbsolutePath() + "~");
 
         final OutputStream out = IO.write(tmp);

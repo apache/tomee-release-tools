@@ -58,7 +58,7 @@ public class AddVersion {
      * @param args
      * @throws Exception
      */
-    public static void main(String[] args) throws Exception {
+    public static void main(final String[] args) throws Exception {
         boolean setSnapshot = false;
         if (args.length > 0 && "set-snapshot".equals(args[0])) {
             setSnapshot = true;
@@ -92,8 +92,8 @@ public class AddVersion {
                         new NotFileFilter(new NameFileFilter("target", IOCase.INSENSITIVE)))
         );
 
-        for (File file : files) {
-            for (String[] replacement : replacements) {
+        for (final File file : files) {
+            for (final String[] replacement : replacements) {
                 final CountingFixedStringValueTokenHandler handlerCounting = new CountingFixedStringValueTokenHandler(replacement[1]);
                 update(file, new FixedTokenReplacementInputStream(IO.read(file), replacement[0], handlerCounting));
                 final int nbReplacements = handlerCounting.getReplacements();
@@ -104,14 +104,14 @@ public class AddVersion {
         }
     }
 
-    private static String currentVersion(String version, boolean appenSnapshot) {
+    private static String currentVersion(final String version, final boolean appenSnapshot) {
         if (appenSnapshot && !version.endsWith(SNAPSHOT_SUFFIX)) {
             return version + SNAPSHOT_SUFFIX;
         }
         return version;
     }
 
-    private static void update(File dest, InputStream in) throws IOException {
+    private static void update(final File dest, final InputStream in) throws IOException {
         final File tmp = new File(dest.getAbsolutePath() + "~");
         final OutputStream out = IO.write(tmp);
         int i;
@@ -124,7 +124,7 @@ public class AddVersion {
         }
     }
 
-    private static String nextVersion(final String systemProperty, final String version, boolean fromSnapshot, boolean toSnapshot) {
+    private static String nextVersion(final String systemProperty, final String version, final boolean fromSnapshot, final boolean toSnapshot) {
         if (fromSnapshot) { // we want to replace version-SNAPSHOT by version so keep it
             return version;
         }
@@ -173,11 +173,11 @@ public class AddVersion {
         private final String value;
         private int replacements = 0;
 
-        public CountingFixedStringValueTokenHandler(String value) {
+        public CountingFixedStringValueTokenHandler(final String value) {
             this.value = value;
         }
 
-        public InputStream processToken(String token) {
+        public InputStream processToken(final String token) {
             replacements++;
             return new ByteArrayInputStream(value.getBytes());
         }

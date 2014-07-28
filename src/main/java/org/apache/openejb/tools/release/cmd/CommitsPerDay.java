@@ -35,7 +35,7 @@ import java.util.concurrent.TimeUnit;
 @Command
 public class CommitsPerDay {
 
-    public static void main(String... args) throws Exception {
+    public static void main(final String... args) throws Exception {
 
         final String tag = "http://svn.apache.org/repos/asf/openejb/";
 
@@ -61,7 +61,7 @@ public class CommitsPerDay {
 
             int c = 0;
 
-            Date next = increment(date);
+            final Date next = increment(date);
 
             while (iterator.hasNext()) {
                 final Commit commit = iterator.next();
@@ -80,11 +80,11 @@ public class CommitsPerDay {
 
     }
 
-    private static boolean lesser(Date a, Date b) {
+    private static boolean lesser(final Date a, final Date b) {
         return a.compareTo(b) < 0;
     }
 
-    private static Date increment(Date previous) {
+    private static Date increment(final Date previous) {
         final long l = TimeUnit.DAYS.toMillis(30);
         final long time = previous.getTime() + l;
         return new Date(time);

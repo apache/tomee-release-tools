@@ -45,9 +45,9 @@ import java.util.regex.Pattern;
  */
 public class Files {
 
-    public static File file(String... parts) {
+    public static File file(final String... parts) {
         File dir = null;
-        for (String part : parts) {
+        for (final String part : parts) {
             if (dir == null) {
                 dir = new File(part);
             } else {
@@ -58,8 +58,8 @@ public class Files {
         return dir;
     }
 
-    public static File file(File dir, String... parts) {
-        for (String part : parts) {
+    public static File file(File dir, final String... parts) {
+        for (final String part : parts) {
             dir = new File(dir, part);
         }
 
@@ -73,19 +73,19 @@ public class Files {
     public static List<File> collect(final File dir, final Pattern pattern) {
         return collect(dir, new FileFilter() {
             @Override
-            public boolean accept(File file) {
+            public boolean accept(final File file) {
                 return pattern.matcher(file.getAbsolutePath()).matches();
             }
         });
     }
 
 
-    public static List<File> collect(File dir, FileFilter filter) {
+    public static List<File> collect(final File dir, final FileFilter filter) {
         final List<File> accepted = new ArrayList<File>();
         if (filter.accept(dir)) accepted.add(dir);
 
         final File[] files = dir.listFiles();
-        if (files != null) for (File file : files) {
+        if (files != null) for (final File file : files) {
             accepted.addAll(collect(file, filter));
         }
 
@@ -109,27 +109,27 @@ public class Files {
         }
     }
 
-    public static void exists(File file, String s) {
+    public static void exists(final File file, final String s) {
         if (!file.exists()) throw new RuntimeException(s + " does not exist: " + file.getAbsolutePath());
     }
 
-    public static void dir(File file) {
+    public static void dir(final File file) {
         if (!file.isDirectory()) throw new RuntimeException("Not a directory: " + file.getAbsolutePath());
     }
 
-    public static void file(File file) {
+    public static void file(final File file) {
         if (!file.isFile()) throw new RuntimeException("Not a file: " + file.getAbsolutePath());
     }
 
-    public static void writable(File file) {
+    public static void writable(final File file) {
         if (!file.canWrite()) throw new RuntimeException("Not writable: " + file.getAbsolutePath());
     }
 
-    public static void readable(File file) {
+    public static void readable(final File file) {
         if (!file.canRead()) throw new RuntimeException("Not readable: " + file.getAbsolutePath());
     }
 
-    public static void mkdir(File file) {
+    public static void mkdir(final File file) {
         if (file.exists()) return;
         if (!file.mkdirs()) throw new RuntimeException("Cannot mkdir: " + file.getAbsolutePath());
     }
@@ -140,16 +140,16 @@ public class Files {
             if (!file.delete()) throw new IllegalStateException("Cannot make temp dir.  Delete failed");
             mkdir(file);
             return file;
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static void mkparent(File file) {
+    public static void mkparent(final File file) {
         mkdirs(file.getParentFile());
     }
 
-    public static void mkdirs(File file) {
+    public static void mkdirs(final File file) {
 
         if (!file.exists()) {
 

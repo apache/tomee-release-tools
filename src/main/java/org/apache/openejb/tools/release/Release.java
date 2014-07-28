@@ -68,7 +68,7 @@ public class Release {
     static {
         try {
             Settings.Load.main();
-        } catch (IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
         }
 
@@ -85,7 +85,7 @@ public class Release {
         boolean interpolating = true;
         while (interpolating) {
             interpolating = false;
-            for (Map.Entry<String, Object> entry : map.entrySet()) {
+            for (final Map.Entry<String, Object> entry : map.entrySet()) {
                 final Object value = options.get(entry.getKey(), entry.getValue());
 
                 final String raw = value.toString();
@@ -97,22 +97,22 @@ public class Release {
         }
     }
 
-    public static void main(String[] args) {
-        for (Map.Entry<String, Object> entry : map().entrySet()) {
+    public static void main(final String[] args) {
+        for (final Map.Entry<String, Object> entry : map().entrySet()) {
             System.out.printf("%s = %s\n", entry.getKey(), entry.getValue());
         }
     }
 
-    static String format(String input, Map<String, Object> map, Options options) {
-        Matcher matcher = PATTERN.matcher(input);
-        StringBuffer buf = new StringBuffer();
+    static String format(final String input, final Map<String, Object> map, final Options options) {
+        final Matcher matcher = PATTERN.matcher(input);
+        final StringBuffer buf = new StringBuffer();
         while (matcher.find()) {
-            String key = matcher.group(2);
-            Object value = options.get(key, map.get(key));
+            final String key = matcher.group(2);
+            final Object value = options.get(key, map.get(key));
             if (value != null) {
                 try {
                     matcher.appendReplacement(buf, value.toString());
-                } catch (Exception e) {
+                } catch (final Exception e) {
                 }
             }
         }

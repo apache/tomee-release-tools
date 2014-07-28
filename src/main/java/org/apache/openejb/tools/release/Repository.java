@@ -86,7 +86,7 @@ public class Repository {
         return profileId;
     }
 
-    public void setProfileId(String profileId) {
+    public void setProfileId(final String profileId) {
         this.profileId = profileId;
     }
 
@@ -94,7 +94,7 @@ public class Repository {
         return profileName;
     }
 
-    public void setProfileName(String profileName) {
+    public void setProfileName(final String profileName) {
         this.profileName = profileName;
     }
 
@@ -102,7 +102,7 @@ public class Repository {
         return profileType;
     }
 
-    public void setProfileType(String profileType) {
+    public void setProfileType(final String profileType) {
         this.profileType = profileType;
     }
 
@@ -110,7 +110,7 @@ public class Repository {
         return repositoryId;
     }
 
-    public void setRepositoryId(String repositoryId) {
+    public void setRepositoryId(final String repositoryId) {
         this.repositoryId = repositoryId;
     }
 
@@ -118,7 +118,7 @@ public class Repository {
         return repositoryName;
     }
 
-    public void setRepositoryName(String repositoryName) {
+    public void setRepositoryName(final String repositoryName) {
         this.repositoryName = repositoryName;
     }
 
@@ -126,7 +126,7 @@ public class Repository {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(final String type) {
         this.type = type;
     }
 
@@ -134,7 +134,7 @@ public class Repository {
         return policy;
     }
 
-    public void setPolicy(String policy) {
+    public void setPolicy(final String policy) {
         this.policy = policy;
     }
 
@@ -142,7 +142,7 @@ public class Repository {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(final String userId) {
         this.userId = userId;
     }
 
@@ -150,7 +150,7 @@ public class Repository {
         return userAgent;
     }
 
-    public void setUserAgent(String userAgent) {
+    public void setUserAgent(final String userAgent) {
         this.userAgent = userAgent;
     }
 
@@ -158,7 +158,7 @@ public class Repository {
         return ipAddress;
     }
 
-    public void setIpAddress(String ipAddress) {
+    public void setIpAddress(final String ipAddress) {
         this.ipAddress = ipAddress;
     }
 
@@ -166,7 +166,7 @@ public class Repository {
         return repositoryURI;
     }
 
-    public void setRepositoryURI(URI repositoryURI) {
+    public void setRepositoryURI(final URI repositoryURI) {
         this.repositoryURI = repositoryURI;
     }
 
@@ -174,7 +174,7 @@ public class Repository {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(final Date createdDate) {
         this.createdDate = createdDate;
     }
 
@@ -182,7 +182,7 @@ public class Repository {
         return closedDate;
     }
 
-    public void setClosedDate(Date closedDate) {
+    public void setClosedDate(final Date closedDate) {
         this.closedDate = closedDate;
     }
 
@@ -190,7 +190,7 @@ public class Repository {
         return provider;
     }
 
-    public void setProvider(String provider) {
+    public void setProvider(final String provider) {
         this.provider = provider;
     }
 
@@ -198,7 +198,7 @@ public class Repository {
         return releaseRepositoryId;
     }
 
-    public void setReleaseRepositoryId(String releaseRepositoryId) {
+    public void setReleaseRepositoryId(final String releaseRepositoryId) {
         this.releaseRepositoryId = releaseRepositoryId;
     }
 
@@ -206,7 +206,7 @@ public class Repository {
         return releaseRepositoryName;
     }
 
-    public void setReleaseRepositoryName(String releaseRepositoryName) {
+    public void setReleaseRepositoryName(final String releaseRepositoryName) {
         this.releaseRepositoryName = releaseRepositoryName;
     }
 

@@ -45,7 +45,7 @@ public class Tck {
         exec("svn", "-m", format("[release-tools] redo tck branch for %s", Release.tomeeVersionName), "rm", branch);
     }
 
-    public static void main(String... args) throws Exception {
+    public static void main(final String... args) throws Exception {
 
         // https://svn.apache.org/repos/tck/openejb-tck/branches/tomee-1.0.0-beta-2
 
@@ -74,7 +74,7 @@ public class Tck {
         exec("svn", "-m", "[release-tools] update staging repo for " + Release.tomeeVersionName, "ci");
     }
 
-    private static void updateWebProfile(final String branch, final File dir, String version) throws IOException {
+    private static void updateWebProfile(final String branch, final File dir, final String version) throws IOException {
         final File properties = new File(dir, "webprofile.properties");
 
         InputStream in = IO.read(properties);
@@ -85,17 +85,17 @@ public class Tck {
         update(properties, in);
     }
 
-    private static DelimitedTokenReplacementInputStream replaceProperty(InputStream in, final String property, final String value) {
+    private static DelimitedTokenReplacementInputStream replaceProperty(final InputStream in, final String property, final String value) {
         final String n = System.getProperty("line.separator");
         return new DelimitedTokenReplacementInputStream(in, property, n, new StringTokenHandler() {
             @Override
-            public String handleToken(String token) throws IOException {
+            public String handleToken(final String token) throws IOException {
                 return String.format("%s = %s%s", property, value, n);
             }
         });
     }
 
-    private static void updatePom(String staging, File pom) throws IOException {
+    private static void updatePom(final String staging, final File pom) throws IOException {
 
         System.out.println(pom.getAbsolutePath());
 
@@ -120,7 +120,7 @@ public class Tck {
         // Yank any existing nexus-staging repo
         in = new DelimitedTokenReplacementInputStream(in, "<repository>", "</repository>", new StringTokenHandler() {
             @Override
-            public String handleToken(String token) throws IOException {
+            public String handleToken(final String token) throws IOException {
                 if (token.contains("<id>nexus-staging</id>")) {
                     return "";
                 }
@@ -135,13 +135,13 @@ public class Tck {
         // Yank SNAPSHOT
         in = new DelimitedTokenReplacementInputStream(in, "<openejb.version>", "</openejb.version>", new StringTokenHandler() {
             @Override
-            public String handleToken(String s) throws IOException {
+            public String handleToken(final String s) throws IOException {
                 return "<openejb.version>" + Release.openejbVersion + "</openejb.version>";
             }
         });
         in = new DelimitedTokenReplacementInputStream(in, "<tomee.version>", "</tomee.version>", new StringTokenHandler() {
             @Override
-            public String handleToken(String s) throws IOException {
+            public String handleToken(final String s) throws IOException {
                 return "<tomee.version>" + Release.tomeeVersion + "</tomee.version>";
             }
         });
@@ -149,7 +149,7 @@ public class Tck {
         update(pom, in);
     }
 
-    private static void update(File dest, InputStream in) throws IOException {
+    private static void update(final File dest, final InputStream in) throws IOException {
         final File tmp = new File(dest.getAbsolutePath() + "~");
 
         final OutputStream out = IO.write(tmp);

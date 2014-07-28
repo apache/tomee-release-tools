@@ -26,7 +26,7 @@ import org.apache.openejb.tools.release.util.Files;
 @Command(dependsOn = {Close.class})
 public class Legal {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(final String[] args) throws Exception {
         org.apache.creadur.tentacles.Main.main(new String[]{
                 Release.staging,
                 Files.file(Release.builddir, "staging-" + Release.build, "legal").getAbsolutePath()

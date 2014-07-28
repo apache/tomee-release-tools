@@ -28,12 +28,12 @@ public class Exec {
     public static Map<String, String> env = new HashMap<String, String>();
 
 
-    public static File cd(String string) {
+    public static File cd(final String string) {
         final File file = new File(string);
         return cd(file);
     }
 
-    public static File cd(File file) {
+    public static File cd(final File file) {
         System.out.println("cd " + file);
 
         System.setProperty("user.dir", file.getAbsolutePath());
@@ -41,25 +41,25 @@ public class Exec {
         return file;
     }
 
-    public static void export(String key, String value) {
+    public static void export(final String key, final String value) {
         env.put(key, value);
     }
 
-    public static int exec(String program, String... args) throws RuntimeException {
+    public static int exec(final String program, final String... args) throws RuntimeException {
         try {
             final Process process = call(program, args);
             Pipe.pipe(process);
 
             return process.waitFor();
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new RuntimeException(e);
-        } catch (InterruptedException e) {
+        } catch (final InterruptedException e) {
             Thread.interrupted();
             throw new RuntimeException(e);
         }
     }
 
-    public static OutputStream write(String program, String... args) throws RuntimeException {
+    public static OutputStream write(final String program, final String... args) throws RuntimeException {
         try {
             final Process process = call(program, args);
 
@@ -67,12 +67,12 @@ public class Exec {
             Pipe.pipe(process.getErrorStream(), System.err);
 
             return new BufferedOutputStream(process.getOutputStream());
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static InputStream read(String program, String... args) throws RuntimeException {
+    public static InputStream read(final String program, final String... args) throws RuntimeException {
         try {
             final Process process = call(program, args);
 
@@ -80,12 +80,12 @@ public class Exec {
             Pipe.pipe(process.getErrorStream(), System.err);
 
             return new BufferedInputStream(process.getInputStream());
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private static Process call(String program, String... args) throws IOException {
+    private static Process call(final String program, final String... args) throws IOException {
         final List<String> command = new ArrayList<String>();
         command.add(program);
         command.addAll(Arrays.asList(args));

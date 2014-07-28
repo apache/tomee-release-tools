@@ -37,7 +37,7 @@ import java.lang.reflect.Field;
 @Command(dependsOn = {Legal.class, Binaries.class})
 public class Revote {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(final String[] args) throws Exception {
 
         final String tag = Release.tags + Release.openejbVersionName;
 
@@ -48,7 +48,7 @@ public class Revote {
         final Commit.Log log = (Commit.Log) unmarshaller.unmarshal(in);
 
         ObjectList<Commit> commits = log.getCommits();
-        ObjectList<Commit> message = commits.contains("message", "[release-tools]");
+        final ObjectList<Commit> message = commits.contains("message", "[release-tools]");
         commits.removeAll(message);
         commits = commits.ascending("revision");
 
@@ -56,10 +56,10 @@ public class Revote {
 
         template.add("commits", commits);
 
-        for (Field field : Release.class.getFields()) {
+        for (final Field field : Release.class.getFields()) {
             try {
                 template.add(field.getName(), field.get(null));
-            } catch (IllegalAccessException e) {
+            } catch (final IllegalAccessException e) {
                 e.printStackTrace();
             }
         }

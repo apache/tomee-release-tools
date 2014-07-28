@@ -30,37 +30,37 @@ import java.util.Set;
  */
 public class Commands {
 
-    public static String name(Class<?> clazz) {
+    public static String name(final Class<?> clazz) {
         final Command command = clazz.getAnnotation(Command.class);
         String name = command.value();
         if (name.length() == 0) name = clazz.getSimpleName().toLowerCase();
         return name;
     }
 
-    public static void run(String[] args, Class clazz) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+    public static void run(final String[] args, final Class clazz) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
         final Method main = clazz.getMethod("main", String[].class);
         main.invoke(null, new Object[]{args});
     }
 
-    public static List<String> dependencies(Class<?> clazz) {
-        List<String> list = new ArrayList<String>();
+    public static List<String> dependencies(final Class<?> clazz) {
+        final List<String> list = new ArrayList<String>();
         final Command command = clazz.getAnnotation(Command.class);
-        for (Class dep : command.dependsOn()) {
+        for (final Class dep : command.dependsOn()) {
             list.add(name(dep));
         }
 
         return list;
     }
 
-    public static List<Class<?>> order(List<Class<?>> commands) {
+    public static List<Class<?>> order(final List<Class<?>> commands) {
         return References.sort(commands, new References.Visitor<Class<?>>() {
             @Override
-            public String getName(Class<?> aClass) {
+            public String getName(final Class<?> aClass) {
                 return name(aClass);
             }
 
             @Override
-            public Set<String> getReferences(Class<?> aClass) {
+            public Set<String> getReferences(final Class<?> aClass) {
 
                 return new HashSet<String>(dependencies(aClass));
             }

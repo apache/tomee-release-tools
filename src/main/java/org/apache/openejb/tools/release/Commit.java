@@ -45,7 +45,7 @@ public class Commit {
         return message;
     }
 
-    public void setMessage(String message) {
+    public void setMessage(final String message) {
         this.message = message;
     }
 
@@ -53,7 +53,7 @@ public class Commit {
         return revision;
     }
 
-    public void setRevision(long revision) {
+    public void setRevision(final long revision) {
         this.revision = revision;
     }
 
@@ -61,7 +61,7 @@ public class Commit {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(final Date date) {
         this.date = date;
     }
 
@@ -69,7 +69,7 @@ public class Commit {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(final String author) {
         this.author = author;
     }
 
@@ -89,11 +89,11 @@ public class Commit {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Commit commit = (Commit) o;
+        final Commit commit = (Commit) o;
 
         if (revision != commit.revision) return false;
 
@@ -121,7 +121,7 @@ public class Commit {
             return kind;
         }
 
-        public void setKind(String kind) {
+        public void setKind(final String kind) {
             this.kind = kind;
         }
 
@@ -129,7 +129,7 @@ public class Commit {
             return action;
         }
 
-        public void setAction(String action) {
+        public void setAction(final String action) {
             this.action = action;
         }
 
@@ -137,7 +137,7 @@ public class Commit {
             return path;
         }
 
-        public void setPath(String path) {
+        public void setPath(final String path) {
             this.path = path;
         }
     }

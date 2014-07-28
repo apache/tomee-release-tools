@@ -48,7 +48,7 @@ public class ReviewCommits {
 
     private static BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
-    public static void main(String... args) throws Exception {
+    public static void main(final String... args) throws Exception {
 
         final String tag = Release.tags + Release.tomeeVersionName;
 
@@ -62,13 +62,13 @@ public class ReviewCommits {
         ObjectList<Commit> commits = log.getCommits();
         commits = commits.ascending("revision");
 
-        for (Commit commit : commits) {
+        for (final Commit commit : commits) {
             final String[] tokens = commit.getMessage().split("[^A-Z0-9-]+");
-            for (String token : tokens) {
+            for (final String token : tokens) {
                 if (token.matches("(OPENEJB|TOMEE)-[0-9]+")) {
                     try {
                         addIssue(getJira().getIssue(token));
-                    } catch (Exception e) {
+                    } catch (final Exception e) {
                         System.out.printf("Invalid JIRA '%s'\n", token);
                     }
                 }
@@ -83,7 +83,7 @@ public class ReviewCommits {
         System.out.printf("Are you ready to review %s commits?", commits.size());
         System.out.println();
 
-        for (Commit commit : commits) {
+        for (final Commit commit : commits) {
             handle(commit);
         }
 
@@ -94,8 +94,8 @@ public class ReviewCommits {
 
     }
 
-    public static boolean handle(Commit commit) {
-        for (Commit.Path path : commit.getPaths()) {
+    public static boolean handle(final Commit commit) {
+        for (final Commit.Path path : commit.getPaths()) {
             System.out.printf(" %s %s", path.getAction(), path.getPath());
             System.out.println();
         }
@@ -108,14 +108,14 @@ public class ReviewCommits {
         try {
             final Key key = Key.valueOf(line);
             if (!key.pressed(commit)) handle(commit);
-        } catch (IllegalArgumentException e) {
+        } catch (final IllegalArgumentException e) {
             return handle(commit);
         }
 
         return true;
     }
 
-    private static String prompt(String s) {
+    private static String prompt(final String s) {
         System.out.printf("%s : ", s);
         final String value = readLine();
         return (value == null || value.length() == 0) ? s : value;
@@ -126,7 +126,7 @@ public class ReviewCommits {
      */
     private static List<Issue> last = new ArrayList<Issue>();
 
-    private static void addIssue(Issue issue) {
+    private static void addIssue(final Issue issue) {
         last.remove(issue);
         last.add(0, issue);
         while (last.size() > 20) {
@@ -138,14 +138,14 @@ public class ReviewCommits {
     private static List<IssueType> issueTypes = new ArrayList<IssueType>();
 
     public static Jira getJira() {
-        Server server = Maven.settings.getServer("apache.jira");
+        final Server server = Maven.settings.getServer("apache.jira");
         final String username = server.getUsername();
         final String password = server.getPassword();
 
         if (jira == null) {
             try {
                 final Options options = new Options(System.getProperties());
-                Jira jira = new Jira("http://issues.apache.org/jira/rpc/xmlrpc");
+                final Jira jira = new Jira("http://issues.apache.org/jira/rpc/xmlrpc");
                 jira.login(username, password);
                 ReviewCommits.jira = jira;
 
@@ -155,7 +155,7 @@ public class ReviewCommits {
                 issueTypes.add(jira.getIssueType("Task"));
                 issueTypes.add(jira.getIssueType("Dependency upgrade"));
 
-            } catch (Exception e) {
+            } catch (final Exception e) {
                 throw new IllegalStateException(e);
             }
         }
@@ -165,7 +165,7 @@ public class ReviewCommits {
     public static enum Key {
         V(new Action() {
             @Override
-            public boolean perform(Commit commit) {
+            public boolean perform(final Commit commit) {
                 Exec.exec("open", String.format("http://svn.apache.org/viewvc?view=revision&revision=%s", commit.getRevision()));
                 return false;
             }
@@ -174,17 +174,17 @@ public class ReviewCommits {
         // ASSOCIATE with a JIRA issue
         A(new Action() {
             @Override
-            public boolean perform(Commit commit) {
+            public boolean perform(final Commit commit) {
                 int i = 0;
 
                 final List<Issue> issues = new ArrayList<Issue>(last);
 
-                for (Issue issue : issues) {
+                for (final Issue issue : issues) {
                     System.out.printf("%s) %s: %s\n", i++, issue.getKey(), issue.getSummary());
                 }
 
                 final String[] split = prompt("issues?").split(" +");
-                for (String key : split) {
+                for (final String key : split) {
 
                     final Issue issue = resolve(key, issues);
                     if (issue == null) {
@@ -206,7 +206,7 @@ public class ReviewCommits {
         // NEXT commit
         N(new Action() {
             @Override
-            public boolean perform(Commit commit) {
+            public boolean perform(final Commit commit) {
                 return true;
             }
         }),
@@ -215,7 +215,7 @@ public class ReviewCommits {
         C(new Action() {
 
             @Override
-            public boolean perform(Commit commit) {
+            public boolean perform(final Commit commit) {
 
                 try {
                     final Jira jira = getJira();
@@ -225,7 +225,7 @@ public class ReviewCommits {
                     final String version = prompt("TOMEE".equals(project) ? Release.tomeeVersion : Release.openejbVersion);
                     final String type = prompt("Improvement (type first letters)").toLowerCase();
 
-                    Issue issue = new Issue();
+                    final Issue issue = new Issue();
 
                     if (project.equalsIgnoreCase("o")) {
                         issue.setProject(jira.getProject("OPENEJB"));
@@ -236,7 +236,7 @@ public class ReviewCommits {
 
                     // Set default to Improvement
                     issue.setType(issueTypes.get(0));
-                    for (IssueType issueType : issueTypes) {
+                    for (final IssueType issueType : issueTypes) {
                         if (issueType.getName().toLowerCase().startsWith(type)) {
                             issue.setType(issueType);
                             break;
@@ -257,12 +257,12 @@ public class ReviewCommits {
                             System.out.println(jiraIssue.getKey());
 
                             updateCommitMessage(commit, jiraIssue);
-                        } catch (Exception e) {
+                        } catch (final Exception e) {
                             System.out.println("Could not create jira issue");
                             e.printStackTrace();
                         }
                     }
-                } catch (Exception e) {
+                } catch (final Exception e) {
                     e.printStackTrace();
                 }
 
@@ -271,29 +271,29 @@ public class ReviewCommits {
 
         });
 
-        private static Issue createIssue(Jira jira, Issue issue) throws Exception {
+        private static Issue createIssue(final Jira jira, final Issue issue) throws Exception {
             trimIssue(issue);
 
             return jira.createIssue(issue);
         }
 
 
-        private static Issue resolve(String key, List<Issue> issues) {
+        private static Issue resolve(final String key, final List<Issue> issues) {
             try {
                 return issues.get(new Integer(key));
-            } catch (Exception e) {
+            } catch (final Exception e) {
             }
 
 
             try {
                 return getJira().getIssue(key);
-            } catch (Exception e) {
+            } catch (final Exception e) {
             }
 
             return null;
         }
 
-        private static void updateCommitMessage(Commit commit, Issue issue) {
+        private static void updateCommitMessage(final Commit commit, final Issue issue) {
             final String oldMessage = commit.getMessage();
 
             if (oldMessage.contains(issue.getKey())) return;
@@ -306,23 +306,23 @@ public class ReviewCommits {
 
         private final Action action;
 
-        Key(Action action) {
+        Key(final Action action) {
             this.action = action;
         }
 
-        public boolean pressed(Commit commit) {
+        public boolean pressed(final Commit commit) {
             return action.perform(commit);
         }
     }
 
-    public static String v(String version) {
+    public static String v(final String version) {
         return version.replaceFirst("^[a-z]+-", "");
     }
 
-    public static Issue trimIssue(Issue issue) throws NoSuchFieldException, IllegalAccessException {
+    public static Issue trimIssue(final Issue issue) throws NoSuchFieldException, IllegalAccessException {
         toMap(issue).remove("votes");
 
-        for (Version version : issue.getFixVersions()) {
+        for (final Version version : issue.getFixVersions()) {
             toMap(version).remove("archived");
             toMap(version).remove("sequence");
             toMap(version).remove("released");
@@ -332,7 +332,7 @@ public class ReviewCommits {
         return issue;
     }
 
-    public static Map toMap(MapObject issue) throws NoSuchFieldException, IllegalAccessException {
+    public static Map toMap(final MapObject issue) throws NoSuchFieldException, IllegalAccessException {
         final Field fields = MapObject.class.getDeclaredField("fields");
         fields.setAccessible(true);
         return (Map) fields.get(issue);
@@ -346,7 +346,7 @@ public class ReviewCommits {
     private static String readLine() {
         try {
             return in.readLine();
-        } catch (IOException e) {
+        } catch (final IOException e) {
             throw new IllegalStateException(e);
         }
     }

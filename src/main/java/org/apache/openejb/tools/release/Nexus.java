@@ -38,7 +38,7 @@ public class Nexus {
     private final String authorization;
     private final DefaultHttpClient client;
 
-    public Nexus(String user, String pass) {
+    public Nexus(final String user, final String pass) {
         final String s = user + ":" + pass;
         final byte[] bytes = Base64.encodeBase64(s.getBytes());
 
@@ -61,23 +61,23 @@ public class Nexus {
         return stagingRepositories.getRepositories();
     }
 
-    public void close(String repository) throws IOException {
+    public void close(final String repository) throws IOException {
         close(repository, "");
     }
 
-    public void close(String repository, String description) throws IOException {
+    public void close(final String repository, final String description) throws IOException {
         bulk("close", repository, description);
     }
 
-    public void drop(String repository) throws IOException {
+    public void drop(final String repository) throws IOException {
         drop(repository, "");
     }
 
-    public void drop(String repository, String description) throws IOException {
+    public void drop(final String repository, final String description) throws IOException {
         bulk("drop", repository, description);
     }
 
-    private void bulk(String operation, String repository, String description) throws IOException {
+    private void bulk(final String operation, final String repository, final String description) throws IOException {
 
         final HttpPost post = new HttpPost("https://repository.apache.org/service/local/staging/bulk/" + operation + "?undefined");
         post.addHeader("Authorization", authorization);
@@ -88,7 +88,7 @@ public class Nexus {
 
         final HttpResponse execute = client.execute(post);
 
-        String message = IO.slurp(execute.getEntity().getContent());
+        final String message = IO.slurp(execute.getEntity().getContent());
 
         System.out.println(message);
 

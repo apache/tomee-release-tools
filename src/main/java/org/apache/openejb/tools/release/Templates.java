@@ -34,7 +34,7 @@ public final class Templates {
     private final VelocityEngine engine;
 
     private Templates() {
-        Properties properties = new Properties();
+        final Properties properties = new Properties();
         properties.setProperty("file.resource.loader.cache", "true");
         properties.setProperty("resource.loader", "file, class");
         properties.setProperty("class.resource.loader.description", "Velocity Classpath Resource Loader");
@@ -46,17 +46,17 @@ public final class Templates {
         engine.init(properties);
     }
 
-    private void evaluate(String template, Map<String, Object> mapContext, Writer writer) throws IOException {
+    private void evaluate(final String template, final Map<String, Object> mapContext, final Writer writer) throws IOException {
 
-        URL resource = Thread.currentThread().getContextClassLoader().getResource(template);
+        final URL resource = Thread.currentThread().getContextClassLoader().getResource(template);
 
         if (resource == null) throw new IllegalStateException(template);
 
-        VelocityContext context = new VelocityContext(mapContext);
+        final VelocityContext context = new VelocityContext(mapContext);
         engine.evaluate(context, writer, Templates.class.getName(), new InputStreamReader(resource.openStream()));
     }
 
-    public static Builder template(String name) {
+    public static Builder template(final String name) {
         return INSTANCE.new Builder(name);
     }
 
@@ -64,16 +64,16 @@ public final class Templates {
         private final String template;
         private final Map<String, Object> map = new HashMap<String, Object>();
 
-        public Builder(String template) {
+        public Builder(final String template) {
             this.template = template;
         }
 
-        public Builder add(String key, Object value) {
+        public Builder add(final String key, final Object value) {
             map.put(key, value);
             return this;
         }
 
-        public Builder addAll(Map<String, Object> map) {
+        public Builder addAll(final Map<String, Object> map) {
             this.map.putAll(map);
             return this;
         }
@@ -83,14 +83,14 @@ public final class Templates {
 
             try {
                 evaluate(template, map, writer);
-            } catch (IOException ioe) {
+            } catch (final IOException ioe) {
                 throw new RuntimeException("can't apply template " + template, ioe);
             }
 
             return writer.toString();
         }
 
-        public File write(File file) throws IOException {
+        public File write(final File file) throws IOException {
             IO.writeString(file, apply());
             return file;
         }

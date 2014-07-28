@@ -31,7 +31,7 @@ import static java.lang.String.format;
 @Command
 public class Deploy {
 
-    public static void main(String... args) throws Exception {
+    public static void main(final String... args) throws Exception {
 
         // TODO Look for gpg on the path, report error if not found
 

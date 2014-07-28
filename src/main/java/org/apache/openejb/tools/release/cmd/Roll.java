@@ -24,7 +24,7 @@ import org.apache.openejb.tools.release.Command;
 @Command
 public class Roll {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(final String[] args) throws Exception {
         Deploy.main();
         Close.main();
         Tck.main();

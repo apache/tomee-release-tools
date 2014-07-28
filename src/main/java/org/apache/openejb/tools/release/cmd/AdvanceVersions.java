@@ -41,7 +41,7 @@ import static org.apache.openejb.tools.release.util.Files.collect;
 @Command(dependsOn = Close.class)
 public class AdvanceVersions {
 
-    public static void main(String... args) throws Exception {
+    public static void main(final String... args) throws Exception {
 
         final File dir = new File(Release.workdir);
         Files.mkdir(dir);
@@ -54,7 +54,7 @@ public class AdvanceVersions {
 
         final Set<String> versions = collectVersions(workingCopy);
 
-        for (String version : versions) {
+        for (final String version : versions) {
             System.out.println(version);
         }
 
@@ -63,13 +63,13 @@ public class AdvanceVersions {
 //        exec("svn", "-m", "[release-tools] update staging repo for " + Release.openejbVersionName, "ci");
     }
 
-    private static Set<String> collectVersions(File workingCopy) throws IOException {
-        Set<String> versions = new HashSet<String>();
+    private static Set<String> collectVersions(final File workingCopy) throws IOException {
+        final Set<String> versions = new HashSet<String>();
 
 
         final List<File> files = collect(workingCopy, ".*pom.xml");
 
-        for (File file : files) {
+        for (final File file : files) {
             final InputStream read = IO.read(file);
             final StreamLexer lexer = new StreamLexer(read);
 
@@ -88,12 +88,12 @@ public class AdvanceVersions {
         return versions;
     }
 
-    private static void updateVersions(File workingCopy) throws IOException {
+    private static void updateVersions(final File workingCopy) throws IOException {
 
         final List<File> files = collect(workingCopy, ".*pom.xml");
         files.addAll(collect(workingCopy, ".*build.xml"));
 
-        for (File file : files) {
+        for (final File file : files) {
             InputStream in = IO.read(file);
 
             in = new ReplaceStringInputStream(in, "4.0.0-beta-2-SNAPSHOT-SNAPSHOT", "4.0.0-beta-3-SNAPSHOT");
@@ -109,7 +109,7 @@ public class AdvanceVersions {
 
     }
 
-    private static void update(File dest, InputStream in) throws IOException {
+    private static void update(final File dest, final InputStream in) throws IOException {
         final File tmp = new File(dest.getAbsolutePath() + "~");
 
         final OutputStream out = IO.write(tmp);

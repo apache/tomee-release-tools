@@ -35,7 +35,7 @@ public class Upgrades {
         System.out.println();
     }
 
-    public Upgrades add(String key, List<String> versions) {
+    public Upgrades add(final String key, final List<String> versions) {
         upgrades.add(new Upgrade(key, versions));
         return this;
     }
@@ -45,16 +45,16 @@ public class Upgrades {
         final List<String> missing = new ArrayList<String>();
         final List<String> urls = new ArrayList<String>();
 
-        for (Upgrade upgrade : upgrades) {
+        for (final Upgrade upgrade : upgrades) {
             final String key = upgrade.getKey();
 
-            for (String version : upgrade.getVersions()) {
+            for (final String version : upgrade.getVersions()) {
                 urls.add("https://issues.apache.org/jira/sr/jira.issueviews:searchrequest-xml/temp/SearchRequest.xml?jqlQuery=project+%3D+" + key + "+AND+fixVersion+%3D+%22" + version + "%22+AND+status+in+%28Resolved%2C+Closed%29&tempMax=1000");
             }
         }
 
         if (missing.size() > 0) {
-            for (String m : missing) {
+            for (final String m : missing) {
                 System.err.println("Missing " + m);
             }
             throw new IllegalStateException("Missing projects or versions");
@@ -62,7 +62,7 @@ public class Upgrades {
 
         final List<Issue> issues = new MapObjectList<Issue>();
 
-        for (String url : urls) {
+        for (final String url : urls) {
             issues.addAll(new JiraRss(url).getIssues());
         }
 
@@ -77,11 +77,11 @@ public class Upgrades {
         private final String key;
         private final List<String> versions;
 
-        public Upgrade(String key, String... versions) {
+        public Upgrade(final String key, final String... versions) {
             this(key, Arrays.asList(versions));
         }
 
-        public Upgrade(String key, List<String> versions) {
+        public Upgrade(final String key, final List<String> versions) {
             this.key = key;
             this.versions = versions;
         }

@@ -34,7 +34,7 @@ public class Settings {
 
     @Command
     public static class Save {
-        public static void main(String... args) throws IOException {
+        public static void main(final String... args) throws IOException {
             final Map<String, Object> map = Release.map();
 
             final File file = Files.file(System.getProperty("user.home"), ".tomee-release.properties");
@@ -50,7 +50,7 @@ public class Settings {
 
     @Command
     public static class Load {
-        public static void main(String... args) throws IOException {
+        public static void main(final String... args) throws IOException {
             final File file = Files.file(System.getProperty("user.home"), ".tomee-release.properties");
             if (!file.exists()) return;
             final Properties properties1 = IO.readProperties(IO.read(file));

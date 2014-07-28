@@ -27,18 +27,18 @@ public final class Pipe implements Runnable {
     private final InputStream in;
     private final OutputStream out;
 
-    public Pipe(InputStream in, OutputStream out) {
+    public Pipe(final InputStream in, final OutputStream out) {
         this.in = in;
         this.out = out;
     }
 
-    public static void pipe(Process process) {
+    public static void pipe(final Process process) {
         pipe(process.getInputStream(), System.out);
         pipe(process.getErrorStream(), System.err);
 //        pipe(System.in, process.getOutputStream());
     }
 
-    public static void pipe(InputStream in, OutputStream out) {
+    public static void pipe(final InputStream in, final OutputStream out) {
         final Thread thread = new Thread(new Pipe(in, out));
         thread.setDaemon(true);
         thread.start();
@@ -48,12 +48,12 @@ public final class Pipe implements Runnable {
         try {
             int i = -1;
 
-            byte[] buf = new byte[1024];
+            final byte[] buf = new byte[1024];
 
             while ((i = in.read(buf)) != -1) {
                 out.write(buf, 0, i);
             }
-        } catch (Exception e) {
+        } catch (final Exception e) {
             e.printStackTrace();
         }
     }

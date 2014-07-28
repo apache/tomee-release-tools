@@ -38,7 +38,7 @@ import static org.apache.openejb.tools.release.util.Files.collect;
 @Command(dependsOn = {Branch.class})
 public class FinalizeVersions {
 
-    public static void main(String... args) throws Exception {
+    public static void main(final String... args) throws Exception {
 
         final File dir = new File("/tmp/release/branch");
         Files.mkdir(dir);
@@ -59,13 +59,13 @@ public class FinalizeVersions {
 //        exec("svn", "-m", "finalizing versions in arquillian.xml files", "ci");
     }
 
-    private static void updateVersions(File workingCopy) throws IOException {
+    private static void updateVersions(final File workingCopy) throws IOException {
 
         final List<File> files = collect(workingCopy, ".*pom.xml");
         files.addAll(collect(workingCopy, ".*build.xml"));
         files.addAll(collect(workingCopy, ".*arquillian.xml"));
 
-        for (File file : files) {
+        for (final File file : files) {
             InputStream in = IO.read(file);
 
             in = new ReplaceStringInputStream(in, Release.tomeeVersion + "-SNAPSHOT", Release.tomeeVersion);
@@ -77,12 +77,12 @@ public class FinalizeVersions {
 
     }
 
-    private static void updateExamplesVersions(File workingCopy) throws IOException {
+    private static void updateExamplesVersions(final File workingCopy) throws IOException {
 
         final List<File> files = collect(workingCopy, ".*pom.xml");
         files.addAll(collect(workingCopy, ".*build.xml"));
 
-        for (File file : files) {
+        for (final File file : files) {
             InputStream in = IO.read(file);
 
             in = new ReplaceStringInputStream(in, "1.0-SNAPSHOT", "1.0");
@@ -96,7 +96,7 @@ public class FinalizeVersions {
 
     }
 
-    private static void update(File dest, InputStream in) throws IOException {
+    private static void update(final File dest, final InputStream in) throws IOException {
         final File tmp = new File(dest.getAbsolutePath() + "~");
 
         final OutputStream out = IO.write(tmp);

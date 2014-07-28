@@ -29,15 +29,15 @@ public class ObjectList<E> extends ArrayList<E> {
     public ObjectList() {
     }
 
-    public ObjectList(Collection collection) {
+    public ObjectList(final Collection collection) {
         super(collection);
     }
 
-    public ObjectList(int i) {
+    public ObjectList(final int i) {
         super(i);
     }
 
-    private static int compare(Object a, Object b) {
+    private static int compare(final Object a, final Object b) {
         if (a instanceof Comparable) {
             return ((Comparable) a).compareTo(b);
         } else {
@@ -45,11 +45,11 @@ public class ObjectList<E> extends ArrayList<E> {
         }
     }
 
-    public Object min(String field) {
+    public Object min(final String field) {
         return Collections.min(this, getComparator(field));
     }
 
-    public Object max(String field) {
+    public Object max(final String field) {
         return Collections.max(this, getComparator(field));
     }
 
@@ -75,19 +75,19 @@ public class ObjectList<E> extends ArrayList<E> {
     // }
     // }
 
-    public List collect(String field) {
+    public List collect(final String field) {
         if (size() == 0) return this;
-        Accessor accessor = new Accessor(field, this);
+        final Accessor accessor = new Accessor(field, this);
 
         boolean ObjectData = true;
-        List collection = new ArrayList();
+        final List collection = new ArrayList();
         for (int i = 0; i < this.size(); i++) {
-            Object Object = (Object) this.get(i);
-            Object value = accessor.getValue(Object);
+            final Object Object = (Object) this.get(i);
+            final Object value = accessor.getValue(Object);
             if (value instanceof List) {
-                List list = (List) value;
+                final List list = (List) value;
                 for (int j = 0; j < list.size(); j++) {
-                    Object object = list.get(j);
+                    final Object object = list.get(j);
                     collection.add(object);
                     ObjectData = ObjectData && object instanceof Object;
                 }
@@ -104,14 +104,14 @@ public class ObjectList<E> extends ArrayList<E> {
         }
     }
 
-    public ObjectList<E> unique(String field) {
+    public ObjectList<E> unique(final String field) {
         if (size() == 0) return this;
-        Accessor accessor = new Accessor(field, this);
-        ObjectList subset = new ObjectList();
-        List uniqueList = new ArrayList();
+        final Accessor accessor = new Accessor(field, this);
+        final ObjectList subset = new ObjectList();
+        final List uniqueList = new ArrayList();
         for (int i = 0; i < this.size(); i++) {
-            Object Object = (Object) this.get(i);
-            Object value = accessor.getValue(Object);
+            final Object Object = (Object) this.get(i);
+            final Object value = accessor.getValue(Object);
             if (!uniqueList.contains(value)) {
                 uniqueList.add(value);
                 subset.add(Object);
@@ -129,10 +129,10 @@ public class ObjectList<E> extends ArrayList<E> {
      * @param list
      * @return new list c = a + b
      */
-    public ObjectList<E> union(List list) {
-        ObjectList difference = new ObjectList(this);
+    public ObjectList<E> union(final List list) {
+        final ObjectList difference = new ObjectList(this);
         for (int i = 0; i < list.size(); i++) {
-            Object object = list.get(i);
+            final Object object = list.get(i);
             if (!this.contains(object)) {
                 difference.add(object);
             }
@@ -150,10 +150,10 @@ public class ObjectList<E> extends ArrayList<E> {
      * @param list
      * @return new list c = a && b
      */
-    public ObjectList<E> intersection(List list) {
-        ObjectList common = new ObjectList();
+    public ObjectList<E> intersection(final List list) {
+        final ObjectList common = new ObjectList();
         for (int i = 0; i < this.size(); i++) {
-            Object object = this.get(i);
+            final Object object = this.get(i);
             if (list.contains(object)) {
                 common.add(object);
             }
@@ -167,7 +167,7 @@ public class ObjectList<E> extends ArrayList<E> {
      * @param list
      * @return new list c = a && b
      */
-    public ObjectList<E> common(List list) {
+    public ObjectList<E> common(final List list) {
         return intersection(list);
     }
 
@@ -179,10 +179,10 @@ public class ObjectList<E> extends ArrayList<E> {
      * @param list
      * @return new list c = a - b
      */
-    public ObjectList<E> subtract(List list) {
-        ObjectList subtract = new ObjectList(this);
+    public ObjectList<E> subtract(final List list) {
+        final ObjectList subtract = new ObjectList(this);
         for (int i = 0; i < list.size(); i++) {
-            Object object = list.get(i);
+            final Object object = list.get(i);
             subtract.remove(object);
         }
         return subtract;
@@ -202,10 +202,10 @@ public class ObjectList<E> extends ArrayList<E> {
      * @param list
      * @return new list c = a XOR b
      */
-    public ObjectList<E> difference(List list) {
-        ObjectList difference = new ObjectList(this);
+    public ObjectList<E> difference(final List list) {
+        final ObjectList difference = new ObjectList(this);
         for (int i = 0; i < list.size(); i++) {
-            Object object = list.get(i);
+            final Object object = list.get(i);
             if (this.contains(object)) {
                 difference.remove(object);
             } else {
@@ -215,44 +215,44 @@ public class ObjectList<E> extends ArrayList<E> {
         return difference;
     }
 
-    public int sum(String field) {
+    public int sum(final String field) {
         if (size() == 0) return 0;
         int sum = 0;
-        Accessor accessor = new Accessor(field, this);
+        final Accessor accessor = new Accessor(field, this);
 
         for (int i = 0; i < this.size(); i++) {
             try {
-                Object Object = (Object) this.get(i);
+                final Object Object = (Object) this.get(i);
                 sum += accessor.intValue(Object);
-            } catch (NumberFormatException e) {
+            } catch (final NumberFormatException e) {
             }
         }
         return sum;
     }
 
-    public int average(String field) {
+    public int average(final String field) {
         if (size() == 0) return 0;
         int sum = 0;
-        Accessor accessor = new Accessor(field, this);
+        final Accessor accessor = new Accessor(field, this);
         int count = 0;
         for (int i = 0; i < this.size(); i++) {
             try {
-                Object Object = (Object) this.get(i);
+                final Object Object = (Object) this.get(i);
                 sum += accessor.intValue(Object);
                 count++;
-            } catch (NumberFormatException e) {
+            } catch (final NumberFormatException e) {
             }
         }
         return (sum == 0) ? sum : sum / count;
     }
 
-    public ObjectList<E> contains(String field, String string) {
+    public ObjectList<E> contains(final String field, final String string) {
         if (size() == 0) return this;
-        Accessor accessor = new Accessor(field, this);
-        ObjectList subset = new ObjectList();
+        final Accessor accessor = new Accessor(field, this);
+        final ObjectList subset = new ObjectList();
         for (int i = 0; i < this.size(); i++) {
-            Object Object = (Object) this.get(i);
-            String value = accessor.stringValue(Object);
+            final Object Object = (Object) this.get(i);
+            final String value = accessor.stringValue(Object);
             if (value != null && value.indexOf(string) != -1) {
                 subset.add(Object);
             }
@@ -260,14 +260,14 @@ public class ObjectList<E> extends ArrayList<E> {
         return subset;
     }
 
-    public ObjectList<E> matches(String field, String string) {
+    public ObjectList<E> matches(final String field, final String string) {
         if (size() == 0) return this;
-        Pattern pattern = Pattern.compile(string);
-        Accessor accessor = new Accessor(field, this);
-        ObjectList subset = new ObjectList();
+        final Pattern pattern = Pattern.compile(string);
+        final Accessor accessor = new Accessor(field, this);
+        final ObjectList subset = new ObjectList();
         for (int i = 0; i < this.size(); i++) {
-            Object Object = (Object) this.get(i);
-            String value = accessor.stringValue(Object);
+            final Object Object = (Object) this.get(i);
+            final String value = accessor.stringValue(Object);
             if (value != null && pattern.matcher(value).matches()) {
                 subset.add(Object);
             }
@@ -275,13 +275,13 @@ public class ObjectList<E> extends ArrayList<E> {
         return subset;
     }
 
-    public ObjectList<E> equals(String field, String string) {
+    public ObjectList<E> equals(final String field, final String string) {
         if (size() == 0) return this;
-        Accessor accessor = new Accessor(field, this);
-        ObjectList subset = new ObjectList();
+        final Accessor accessor = new Accessor(field, this);
+        final ObjectList subset = new ObjectList();
         for (int i = 0; i < this.size(); i++) {
-            Object Object = (Object) this.get(i);
-            String value = accessor.stringValue(Object);
+            final Object Object = (Object) this.get(i);
+            final String value = accessor.stringValue(Object);
             if (value != null && value.equals(string)) {
                 subset.add(Object);
             }
@@ -289,19 +289,19 @@ public class ObjectList<E> extends ArrayList<E> {
         return subset;
     }
 
-    public ObjectList<E> greater(String field, String string) {
+    public ObjectList<E> greater(final String field, final String string) {
         return compareAndCollect(field, string, 1);
     }
 
-    public ObjectList<E> less(String field, String string) {
+    public ObjectList<E> less(final String field, final String string) {
         return compareAndCollect(field, string, -1);
     }
 
-    public ObjectList<E> greater(String field, Object object) {
+    public ObjectList<E> greater(final String field, final Object object) {
         return compareAndCollect(field, object, 1);
     }
 
-    public ObjectList<E> less(String field, Object object) {
+    public ObjectList<E> less(final String field, final Object object) {
         return compareAndCollect(field, object, -1);
     }
 
@@ -310,7 +310,7 @@ public class ObjectList<E> extends ArrayList<E> {
      *
      * @param field
      */
-    public ObjectList<E> ascending(String field) {
+    public ObjectList<E> ascending(final String field) {
         return sort(field);
     }
 
@@ -319,26 +319,26 @@ public class ObjectList<E> extends ArrayList<E> {
      *
      * @param field
      */
-    public ObjectList<E> descending(String field) {
+    public ObjectList<E> descending(final String field) {
         return sort(field, true);
     }
 
-    public ObjectList<E> sort(String field) {
+    public ObjectList<E> sort(final String field) {
         return sort(field, false);
     }
 
-    public ObjectList<E> sort(String field, boolean reverse) {
+    public ObjectList<E> sort(final String field, final boolean reverse) {
         if (size() == 0) return this;
         Comparator comparator = getComparator(field);
 
         comparator = reverse ? new ReverseComparator(comparator) : comparator;
-        ObjectList list = new ObjectList(this);
+        final ObjectList list = new ObjectList(this);
         Collections.sort(list, comparator);
 
         return list;
     }
 
-    private ObjectList compareAndCollect(String field, Object valueB, int condition) {
+    private ObjectList compareAndCollect(final String field, final Object valueB, final int condition) {
         if (size() == 0) return this;
         try {
 
@@ -350,16 +350,16 @@ public class ObjectList<E> extends ArrayList<E> {
                     final Object object = get(i);
                     final Object valueA = accessor.getValue(object);
 
-                    int result = ObjectList.compare(valueA, valueB);
+                    final int result = ObjectList.compare(valueA, valueB);
 
                     if (result / condition > 0) {
                         subset.add(object);
                     }
-                } catch (Exception e) {
+                } catch (final Exception e) {
                 }
             }
             return subset;
-        } catch (Exception e) {
+        } catch (final Exception e) {
             return new ObjectList();
         }
     }
@@ -379,18 +379,18 @@ public class ObjectList<E> extends ArrayList<E> {
     // return subset;
     // }
 
-    private Comparator getComparator(String field) {
+    private Comparator getComparator(final String field) {
         return new FieldComparator(new Accessor(field, this));
     }
 
     private static class ReverseComparator implements Comparator {
         private final Comparator comparator;
 
-        public ReverseComparator(Comparator comparator) {
+        public ReverseComparator(final Comparator comparator) {
             this.comparator = comparator;
         }
 
-        public int compare(Object a, Object b) {
+        public int compare(final Object a, final Object b) {
             return -1 * comparator.compare(a, b);
         }
     }
@@ -398,16 +398,16 @@ public class ObjectList<E> extends ArrayList<E> {
     private static class FieldComparator implements Comparator {
         private final Accessor accessor;
 
-        public FieldComparator(Accessor accessor) {
+        public FieldComparator(final Accessor accessor) {
             this.accessor = accessor;
         }
 
-        public int compare(Object objectA, Object objectB) {
+        public int compare(final Object objectA, final Object objectB) {
             try {
-                Object a = accessor.getValue((Object) objectA);
-                Object b = accessor.getValue((Object) objectB);
+                final Object a = accessor.getValue((Object) objectA);
+                final Object b = accessor.getValue((Object) objectB);
                 return ObjectList.compare(a, b);
-            } catch (Exception e) {
+            } catch (final Exception e) {
                 return 0;
             }
         }
@@ -417,40 +417,40 @@ public class ObjectList<E> extends ArrayList<E> {
 
         private final Method method;
 
-        public Accessor(String field, List list) {
+        public Accessor(final String field, final List list) {
             this.method = method(list, field);
         }
 
-        private Method method(List list, String field) {
+        private Method method(final List list, final String field) {
             try {
                 final Object first = (Object) list.get(0);
                 final StringBuilder sb = new StringBuilder(field);
                 sb.setCharAt(0, Character.toUpperCase(sb.charAt(0)));
                 return first.getClass().getMethod("get" + sb);
-            } catch (NoSuchMethodException e) {
+            } catch (final NoSuchMethodException e) {
             }
 
             return null;
         }
 
-        public Object getValue(Object Object) {
+        public Object getValue(final Object Object) {
             try {
                 return method.invoke(Object);
-            } catch (Exception e) {
+            } catch (final Exception e) {
                 return null;
             }
         }
 
-        public int intValue(Object Object) throws java.lang.NumberFormatException {
-            Object value = getValue(Object);
+        public int intValue(final Object Object) throws java.lang.NumberFormatException {
+            final Object value = getValue(Object);
             if (value instanceof Number) {
-                Number number = (Number) value;
+                final Number number = (Number) value;
                 return number.intValue();
             }
             return new Integer(value.toString()).intValue();
         }
 
-        public String stringValue(Object Object) {
+        public String stringValue(final Object Object) {
             final Object value = getValue(Object);
             return (value == null) ? null : value.toString();
         }

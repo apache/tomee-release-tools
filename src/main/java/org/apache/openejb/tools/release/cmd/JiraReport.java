@@ -23,7 +23,7 @@ import org.apache.openejb.tools.release.Command;
  */
 @Command
 public class JiraReport {
-    public static void main(String[] args) throws Throwable {
+    public static void main(final String[] args) throws Throwable {
         org.codehaus.swizzle.jirareport.Main.main(args);
     }
 }

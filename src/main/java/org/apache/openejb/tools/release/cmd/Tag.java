@@ -28,7 +28,7 @@ import static org.apache.openejb.tools.release.util.Exec.exec;
 @Command
 public class Tag {
 
-    public static void main(String... args) throws Exception {
+    public static void main(final String... args) throws Exception {
 
         final String branch = Release.branches + Release.tomeeVersionName;
         final String tag = Release.tags + Release.tomeeVersionName;

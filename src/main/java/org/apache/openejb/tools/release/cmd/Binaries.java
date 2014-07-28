@@ -42,7 +42,7 @@ import static org.apache.openejb.tools.release.util.Exec.exec;
 @Command(dependsOn = Close.class)
 public class Binaries {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(final String[] args) throws Exception {
 
         final File dir = Files.file(Release.builddir, "staging-" + Release.build, Release.tomeeVersionName);
 
@@ -70,7 +70,7 @@ public class Binaries {
         binaries = binaries.exclude(".*itests.*");
         binaries = binaries.exclude(".*karafee.*");
 
-        for (URI uri : binaries) {
+        for (final URI uri : binaries) {
             final File file = new File(dir, uri.getPath().replaceAll(".*/", ""));
             System.out.println("Downloading " + file.getName());
             client.download(uri, file);
@@ -88,12 +88,12 @@ public class Binaries {
         exec("svn", "-m", format("[release-tools] staged binaries for %s", Release.tomeeVersionName), "ci", dir.getAbsolutePath());
     }
 
-    private static void list(File file, PrintStream out) throws IOException {
+    private static void list(final File file, final PrintStream out) throws IOException {
         final SimpleDateFormat format = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
         final ZipFile zip = new ZipFile(file);
         final Enumeration<? extends ZipEntry> enumeration = zip.entries();
         while (enumeration.hasMoreElements()) {
-            ZipEntry entry = enumeration.nextElement();
+            final ZipEntry entry = enumeration.nextElement();
             out.printf("%1$7s %2$2s %3$2s", entry.getSize(), format.format(entry.getTime()), entry.getName());
             out.println();
         }

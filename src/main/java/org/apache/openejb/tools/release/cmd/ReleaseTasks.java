@@ -49,10 +49,10 @@ import java.util.Properties;
 @Command
 public class ReleaseTasks {
 
-    public static void main(String... args) throws Exception {
+    public static void main(final String... args) throws Exception {
         final Options options = new Options(System.getProperties());
 
-        Server server = Maven.settings.getServer("apache.jira");
+        final Server server = Maven.settings.getServer("apache.jira");
         final String username = server.getUsername();
         final String password = server.getPassword();
 
@@ -63,7 +63,7 @@ public class ReleaseTasks {
     private final String authorization;
     private final DefaultHttpClient client;
 
-    public ReleaseTasks(String user, String pass) {
+    public ReleaseTasks(final String user, final String pass) {
         // sanity checks
         Validate.notEmpty(user);
         Validate.notEmpty(pass);
@@ -89,12 +89,12 @@ public class ReleaseTasks {
         final URL resource = this.getClass().getResource("/release-tasks.xml");
         final Tasks tasks = (Tasks) unmarshaller.unmarshal(IO.read(resource));
 
-        for (Task task : tasks.getTasks()) {
+        for (final Task task : tasks.getTasks()) {
             String description = task.getDescription();
 
             if (task.getCommands().size() > 0) {
                 description += "\n\nCommands:\n";
-                for (String command : task.getCommands()) {
+                for (final String command : task.getCommands()) {
                     description += String.format("https://svn.apache.org/repos/asf/tomee/sandbox/release-tools/src/main/java/org/apache/openejb/tools/release/cmd/%s.java\n", command);
                 }
             }
@@ -138,7 +138,7 @@ public class ReleaseTasks {
 
         final HttpResponse execute = client.execute(post);
 
-        String message = IO.slurp(execute.getEntity().getContent());
+        final String message = IO.slurp(execute.getEntity().getContent());
 
         final int statusCode = execute.getStatusLine().getStatusCode();
         if (statusCode != 200 && statusCode != 201) {
@@ -171,7 +171,7 @@ public class ReleaseTasks {
 
         final HttpResponse execute = client.execute(post);
 
-        String message = IO.slurp(execute.getEntity().getContent());
+        final String message = IO.slurp(execute.getEntity().getContent());
 
         final int statusCode = execute.getStatusLine().getStatusCode();
         if (statusCode != 200 && statusCode != 201) {
@@ -209,7 +209,7 @@ public class ReleaseTasks {
             return summary;
         }
 
-        public void setSummary(String summary) {
+        public void setSummary(final String summary) {
             this.summary = summary;
         }
 
@@ -217,7 +217,7 @@ public class ReleaseTasks {
             return commands;
         }
 
-        public void setCommands(List<String> commands) {
+        public void setCommands(final List<String> commands) {
             this.commands = commands;
         }
 
@@ -225,7 +225,7 @@ public class ReleaseTasks {
             return description;
         }
 
-        public void setDescription(String description) {
+        public void setDescription(final String description) {
             this.description = description;
         }
 

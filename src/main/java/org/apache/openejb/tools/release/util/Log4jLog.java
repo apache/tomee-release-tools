@@ -24,7 +24,7 @@ import org.apache.log4j.Logger;
 class Log4jLog implements Options.Log {
     private final Logger log;
 
-    public Log4jLog(Logger log) {
+    public Log4jLog(final Logger log) {
         this.log = log;
     }
 
@@ -44,32 +44,32 @@ class Log4jLog implements Options.Log {
     }
 
     @Override
-    public void warning(String message, Throwable t) {
+    public void warning(final String message, final Throwable t) {
         log.warn(message, t);
     }
 
     @Override
-    public void warning(String message) {
+    public void warning(final String message) {
         log.warn(message);
     }
 
     @Override
-    public void debug(String message, Throwable t) {
+    public void debug(final String message, final Throwable t) {
         info(message, t);
     }
 
     @Override
-    public void debug(String message) {
+    public void debug(final String message) {
         info(message);
     }
 
     @Override
-    public void info(String message, Throwable t) {
+    public void info(final String message, final Throwable t) {
         log.info(message, t);
     }
 
     @Override
-    public void info(String message) {
+    public void info(final String message) {
         log.info(message);
     }
 }

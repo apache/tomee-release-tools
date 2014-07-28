@@ -33,7 +33,7 @@ import java.util.zip.ZipFile;
 @Command
 public class CompareLibraries {
 
-    public static void main(String... args) throws IOException {
+    public static void main(final String... args) throws IOException {
         final File repository = Files.file(System.getProperty("user.home"), ".m2", "repository", "org", "apache", "openejb");
 
         // /Users/dblevins/.m2/repository/org/apache/openejb/apache-tomee/1.0.0/apache-tomee-1.0.0-webprofile.zip
@@ -47,7 +47,7 @@ public class CompareLibraries {
 
     }
 
-    private static void diff(File repository, final String artifactId, final String versionA, final String versionB, final String classifier) throws IOException {
+    private static void diff(final File repository, final String artifactId, final String versionA, final String versionB, final String classifier) throws IOException {
         final String repo1Url = "http://repo1.maven.apache.org/maven2";
         final String stagingUrl = Release.staging;
         System.out.printf("\n%s %s %s\n\n", artifactId, versionB, (classifier == null) ? "" : classifier);
@@ -58,12 +58,12 @@ public class CompareLibraries {
         final Map<String, FileData> a = libraries(previous);
         final Map<String, FileData> b = libraries(current);
 
-        for (String key : a.keySet()) {
+        for (final String key : a.keySet()) {
             if (b.containsKey(key)) continue;
             System.out.printf("  D %s\n", path(a, key));
         }
 
-        for (String key : b.keySet()) {
+        for (final String key : b.keySet()) {
             if (a.containsKey(key)) continue;
             System.out.printf("  A %s\n", path(b, key));
         }
@@ -79,7 +79,7 @@ public class CompareLibraries {
         return length / 1024 / 1024;
     }
 
-    private static String path(Map<String, FileData> b, String key) {
+    private static String path(final Map<String, FileData> b, final String key) {
         final FileData value = b.get(key);
         return value.file.getName() + " [" + String.format("%.2f", value.size) + " ko]";
 //        return b.get(key).getAbsolutePath().replace(new File("").getAbsolutePath(),"");
@@ -88,7 +88,7 @@ public class CompareLibraries {
     private static Map<String, FileData> libraries(final File file) throws IOException {
 
         final Map<String, FileData> map = new TreeMap<String, FileData>();
-        for (FileData jar : list(file)) {
+        for (final FileData jar : list(file)) {
             final String name = jar.file.getName().replaceFirst("-[0-9].+", "");
             map.put(name, jar);
         }
@@ -96,7 +96,7 @@ public class CompareLibraries {
         return map;
     }
 
-    private static File artifact(File repository, String artifactId, String version, String classifier, String repoUrl) {
+    private static File artifact(final File repository, final String artifactId, final String version, final String classifier, final String repoUrl) {
 
         final String zip = classifier != null ? artifactId + "-" + version + "-" + classifier + ".zip" : artifactId + "-" + version + ".zip";
 
@@ -138,12 +138,12 @@ public class CompareLibraries {
         }
     }
 
-    private static List<FileData> list(File previousFile) throws IOException {
+    private static List<FileData> list(final File previousFile) throws IOException {
         final List<FileData> files = new ArrayList<FileData>();
 
         final ZipFile previousZip = new ZipFile(previousFile);
         final ArrayList<? extends ZipEntry> list = Collections.list(previousZip.entries());
-        for (ZipEntry entry : list) {
+        for (final ZipEntry entry : list) {
             if (entry.isDirectory()) continue;
             if (!entry.getName().endsWith(".jar")) continue;
             files.add(new FileData(new File(entry.getName()), entry.getSize() * 0.001));
