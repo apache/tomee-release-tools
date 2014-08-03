@@ -123,19 +123,21 @@ public class CompareLibraries {
     }
 
     private static String mvn() {
-        String m2 = System.getenv("M2_HOME");
-        if (m2 == null) {
-            m2 = System.getenv("MAVEN_HOME");
-        }
-        if (m2 == null) {
-            m2 = System.getProperty("M2_HOME");
+        final String[] paths = {
+                System.getenv("M2_HOME") + "/bin/mvn",
+                System.getenv("MAVEN_HOME") + "/bin/mvn",
+                "/usr/bin/mvn",
+                "/usr/local/bin/mvn"
+        };
+
+        for (final String path : paths) {
+            final File file = new File(path);
+            if (file.exists()) {
+                return file.getAbsolutePath();
+            }
         }
 
-        if (m2 == null) {
-            return "mvn";
-        } else {
-            return m2 + "/bin/mvn";
-        }
+        return "mvn";
     }
 
     private static List<FileData> list(final File previousFile) throws IOException {
