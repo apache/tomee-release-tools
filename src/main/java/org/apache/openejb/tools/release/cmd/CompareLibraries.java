@@ -41,7 +41,7 @@ public class CompareLibraries {
         diff(repository, "apache-tomee", "1.6.0.2", "1.7.0", "webprofile");
         diff(repository, "apache-tomee", "1.6.0.2", "1.7.0", "jaxrs");
         diff(repository, "apache-tomee", "1.6.0.2", "1.7.0", "plus");
-//        diff(repository, "apache-tomee", "1.6.0.2", "1.7.0", "plume");
+        diff(repository, "apache-tomee", "1.6.0.2", "1.7.0", "plume");
 
         diff(repository, "openejb-standalone", "4.6.0.2", "4.7.0", null);
 
@@ -61,12 +61,12 @@ public class CompareLibraries {
 
         for (final String key : a.keySet()) {
             if (b.containsKey(key)) continue;
-            System.out.printf("  D %s\n", path(a, key));
+            System.out.printf("  DEL %s\n", path(a, key));
         }
 
         for (final String key : b.keySet()) {
             if (a.containsKey(key)) continue;
-            System.out.printf("  A %s\n", path(b, key));
+            System.out.printf("  ADD %s\n", path(b, key));
         }
 
         System.out.println();

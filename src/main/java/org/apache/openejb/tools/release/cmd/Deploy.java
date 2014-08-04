@@ -48,10 +48,13 @@ public class Deploy {
         Exec.export("JAVA_HOME", System.getProperty("java.home"));
         Exec.export("MAVEN_OPTS", Release.mavenOpts);
 
-        //mvn -rf :bval-tomee -Darguments=-Dmaven.test.skip=true -DfailIfNoTests=false release:perform -DconnectionUrl=scm:svn:https://svn.apache.org/repos/asf/tomee/tomee/tags/tomee-1.6.0.2
+        //mvn -B -rf :bval-tomee -Darguments=-Dmaven.test.skip=true -DfailIfNoTests=false release:perform -DconnectionUrl=scm:svn:https://svn.apache.org/repos/asf/tomee/tomee/tags/tomee-1.6.0.2
 
         final int exec = Exec.exec("mvn",
-                "-Darguments=-Dmaven.test.skip=true -DfailIfNoTests=false",
+                "-Darguments=-Dmaven.test.skip=true -DfailIfNoTests=false -DskipTests -DretryFailedDeploymentCount=10",
+                "-DfailIfNoTests=false",
+                "-B",
+                "-DretryFailedDeploymentCount=10",
                 "release:perform",
                 format("-DconnectionUrl=scm:svn:%s", tag)
         );
