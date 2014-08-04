@@ -41,6 +41,7 @@ public class CompareLibraries {
         diff(repository, "apache-tomee", "1.6.0.2", "1.7.0", "webprofile");
         diff(repository, "apache-tomee", "1.6.0.2", "1.7.0", "jaxrs");
         diff(repository, "apache-tomee", "1.6.0.2", "1.7.0", "plus");
+//        diff(repository, "apache-tomee", "1.6.0.2", "1.7.0", "plume");
 
         diff(repository, "openejb-standalone", "4.6.0.2", "4.7.0", null);
 
@@ -49,7 +50,7 @@ public class CompareLibraries {
 
     private static void diff(final File repository, final String artifactId, final String versionA, final String versionB, final String classifier) throws IOException {
         final String repo1Url = "http://repo1.maven.apache.org/maven2";
-        final String stagingUrl = Release.staging;
+        final String stagingUrl = Release.mvnStaging;
         System.out.printf("\n%s %s %s\n\n", artifactId, versionB, (classifier == null) ? "" : classifier);
 
         final File previous = artifact(repository, artifactId, versionA, classifier, repo1Url);
