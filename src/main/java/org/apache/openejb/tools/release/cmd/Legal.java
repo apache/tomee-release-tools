@@ -31,7 +31,7 @@ import static org.apache.openejb.tools.release.util.Exec.exec;
 public class Legal {
 
     public static void main(final String[] args) throws Exception {
-        String legal = Files.file(Release.builddir, "staging-" + Release.build, "legal").getAbsolutePath();
+        final String legal = Files.file(Release.builddir, "staging-" + Release.build, "legal").getAbsolutePath();
         org.apache.creadur.tentacles.Main.main(new String[]{
                 Release.staging,
                 legal
@@ -43,31 +43,54 @@ public class Legal {
             exec("rm", "-R", repo.getAbsolutePath());
         }
 
-        legal = new File(legal,"content").getAbsolutePath();
+        //Clean all but required
+        clean(new File(legal, "content").getAbsoluteFile());
+    }
 
-        //Clean up other files
-        exec("find", legal, "-name", "*.class", "-type", "f", "-delete");
-        exec("find", legal, "-name", "*.properties", "-type", "f", "-delete");
-        exec("find", legal, "-name", "*.gif", "-type", "f", "-delete");
-        exec("find", legal, "-name", "*.png", "-type", "f", "-delete");
-        exec("find", legal, "-name", "*.jpg", "-type", "f", "-delete");
-        exec("find", legal, "-name", "*.j", "-type", "f", "-delete");
-        exec("find", legal, "-name", "*.js", "-type", "f", "-delete");
-        exec("find", legal, "-name", "*.jar", "-type", "f", "-delete");
-        exec("find", legal, "-name", "*.sh", "-type", "f", "-delete");
-        exec("find", legal, "-name", "*.exe", "-type", "f", "-delete");
-        exec("find", legal, "-name", "*.zip", "-type", "f", "-delete");
-        exec("find", legal, "-name", "*.gz", "-type", "f", "-delete");
-        exec("find", legal, "-name", "*.java", "-type", "f", "-delete");
-        exec("find", legal, "-name", "*.original", "-type", "f", "-delete");
-        exec("find", legal, "-name", "*.xml", "-type", "f", "-delete");
-        exec("find", legal, "-name", "*.xsd", "-type", "f", "-delete");
-        exec("find", legal, "-name", "*.dtd", "-type", "f", "-delete");
-        exec("find", legal, "-name", "*.htm", "-type", "f", "-delete");
-        exec("find", legal, "-name", "*.html", "-type", "f", "-delete");
-        exec("find", legal, "-name", "*.conf", "-type", "f", "-delete");
+    private static void clean(final File f) {
+        if (f == null) {
+            return;
+        }
 
-        exec("find", legal, "-type", "d", "-name", "\"*-javadoc.*\"", "-delete");
-        exec("find", legal, "-empty", "-type", "d", "-delete");
+        if (f.isDirectory()) {
+
+            final File[] files = f.listFiles();
+
+            if (files != null && files.length > 0) {
+                for (final File file : files) {
+                    if (file.isDirectory()) {
+                        clean(file);
+                    } else {
+                        if (!isLicenceOrNotice(file) && !file.delete()) {
+                            file.deleteOnExit();
+                        }
+                    }
+                }
+            }
+
+            if (isEmpty(f) && !f.delete()) {
+                f.deleteOnExit();
+            }
+
+        } else if (!isLicenceOrNotice(f) && !f.delete()) {
+            f.deleteOnExit();
+        }
+    }
+
+    private static boolean isEmpty(final File f) {
+        if (!f.isDirectory()) {
+            return false;
+        }
+        File[] list = f.listFiles();
+        return (list == null || list.length == 0);
+    }
+
+    private static boolean isLicenceOrNotice(final File f) {
+        if (f.isDirectory()) {
+            return false;
+        }
+
+        final String name = f.getName().toLowerCase();
+        return (name.contains("license") || name.contains("notice"));
     }
 }
