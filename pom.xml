@@ -37,7 +37,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <slf4j-version>1.5.6</slf4j-version>
+    <slf4j-version>1.7.7</slf4j-version>
   </properties>
 
   <build>
@@ -46,6 +46,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.1</version>
         <configuration>
           <source>1.6</source>
           <target>1.6</target>
@@ -115,6 +116,10 @@
           <groupId>commons-collections</groupId>
           <artifactId>commons-collections</artifactId>
         </exclusion>
+        <exclusion>
+          <artifactId>xml-apis</artifactId>
+          <groupId>xml-apis</groupId>
+        </exclusion>
       </exclusions>
     </dependency>
 
@@ -122,12 +127,64 @@
       <groupId>org.apache.creadur.tentacles</groupId>
       <artifactId>apache-tentacles</artifactId>
       <version>0.1-SNAPSHOT</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>plexus-utils</artifactId>
+          <groupId>org.codehaus.plexus</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>httpclient</artifactId>
+          <groupId>org.apache.httpcomponents</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>commons-io</artifactId>
+          <groupId>commons-io</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>commons-lang</artifactId>
+          <groupId>commons-lang</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>velocity</artifactId>
+          <groupId>org.apache.velocity</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>apache-rat-plugin</artifactId>
+          <groupId>org.apache.rat</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>swizzle-stream</artifactId>
+          <groupId>org.codehaus.swizzle</groupId>
+        </exclusion>
+        <exclusion>
+          <artifactId>log4j</artifactId>
+          <groupId>log4j</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.6</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.codehaus.plexus</groupId>
+      <artifactId>plexus-utils</artifactId>
+      <version>2.0.7</version>
     </dependency>
 
     <dependency>
       <groupId>org.apache.xbean</groupId>
       <artifactId>xbean-finder</artifactId>
       <version>3.11</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>slf4j-api</artifactId>
+          <groupId>org.slf4j</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>
@@ -150,20 +207,38 @@
     <dependency>
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpclient</artifactId>
-      <version>4.3.3</version>
+      <version>4.3.5</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>commons-logging</artifactId>
+          <groupId>commons-logging</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>
       <groupId>org.apache.velocity</groupId>
       <artifactId>velocity</artifactId>
       <version>1.7</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>commons-lang</artifactId>
+          <groupId>commons-lang</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
-      <dependency>
-          <groupId>org.apache.maven</groupId>
-          <artifactId>maven-settings</artifactId>
-          <version>3.0.4</version>
-      </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-settings</artifactId>
+      <version>3.0.5</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>plexus-utils</artifactId>
+          <groupId>org.codehaus.plexus</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
 
   </dependencies>
 
