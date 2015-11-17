@@ -61,6 +61,7 @@ public class Binaries {
         final URI repo = URI.create(Release.staging);
 
         System.out.println("Downloads: " + dir.getAbsolutePath());
+        System.out.println("Repo: " + repo.toASCIIString());
 
         final NexusClient client = new NexusClient(Platform.aPlatform());
         final UriSet all = new UriSet(client.crawl(repo));
@@ -71,7 +72,7 @@ public class Binaries {
         binaries = binaries.exclude(".*karafee.*");
 
         for (final URI uri : binaries) {
-            final File file = new File(dir, uri.getPath().replaceAll(".*/", ""));
+            final File file = new File(dir, uri.getPath().replaceAll(".*/", "")).getAbsoluteFile();
             System.out.println("Downloading " + file.getName());
             client.download(uri, file);
 

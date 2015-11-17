@@ -32,8 +32,8 @@ import java.util.regex.Pattern;
  */
 public class Release {
 
-    public static String openejbVersion = "4.7.2";
-    public static String tomeeVersion = "1.7.2";
+    public static String openejbVersion = "7.0.0-M1";
+    public static String tomeeVersion = "7.0.0-M1";
 
     public static String openejbVersionName = "openejb-${openejbVersion}";
     public static String tomeeVersionName = "tomee-${tomeeVersion}";
@@ -44,16 +44,16 @@ public class Release {
     public static String tckBranches = "https://svn.apache.org/repos/tck/tomee-tck/branches/";
     public static String tckTrunk = "https://svn.apache.org/repos/tck/tomee-tck/trunk";
 
-    public static String build = "1042";
-    public static String mvnStaging = "https://repository.apache.org/content/repositories/orgapachetomee-${build}/";
-    public static String staging = "https://dist.apache.org/repos/dist/dev/tomee/staging-${build}/";
+    public static String build = "1069";
+    public static String mvnStaging = "https://repository.apache.org/content/repositories/orgapachetomee-1069/";
+    public static String staging = "https://repository.apache.org/content/repositories/orgapachetomee-1069/";
 
     //public static String ciBuilder = "openejb-4.5.1";
     //public static String ciBuildNumber = "1";
 
 
-    public static String builddir = "/tmp/downloads";
-    public static String workdir = "/tmp/release";
+    public static String builddir = System.getProperty("user.home") + "/tmp/downloads";
+    public static String workdir = System.getProperty("user.home") + "/tmp/release";
 
     public static String mavenOpts = "-Xmx1024m -XX:MaxPermSize=512m";
 
