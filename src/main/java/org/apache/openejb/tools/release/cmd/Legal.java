@@ -81,7 +81,7 @@ public class Legal {
         if (!f.isDirectory()) {
             return false;
         }
-        File[] list = f.listFiles();
+        final File[] list = f.listFiles();
         return (list == null || list.length == 0);
     }
 

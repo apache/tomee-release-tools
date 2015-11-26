@@ -73,6 +73,7 @@ public class Binaries {
 
         for (final URI uri : binaries) {
             final File file = new File(dir, uri.getPath().replaceAll(".*/", "")).getAbsoluteFile();
+
             System.out.println("Downloading " + file.getName());
             client.download(uri, file);
 

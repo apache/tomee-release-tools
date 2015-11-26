@@ -6,7 +6,11 @@ From: $from
 
 SVN Tag:
 
- $tags$tomeeVersionName/
+ release-tomee-7.0.0-M1
+
+ git checkout -b tagged-tomee-7.0.0-M1 release-tomee-7.0.0-M1
+
+$tags$tomeeVersionName/
 
 Maven Repo:
 
