@@ -44,7 +44,7 @@ public class Release {
     public static String tckBranches = "https://svn.apache.org/repos/tck/tomee-tck/branches/";
     public static String tckTrunk = "https://svn.apache.org/repos/tck/tomee-tck/trunk";
 
-    public static String build = "1106";
+    public static String build = "1107";
     public static String mvnStaging = "https://repository.apache.org/content/repositories/orgapachetomee-"+build+"/";
     public static String staging = "https://repository.apache.org/content/repositories/orgapachetomee-"+build+"/";
 
