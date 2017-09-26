@@ -51,7 +51,7 @@ public class Binaries {
                 Files.remove(dir);
             }
 
-            Files.mkdirs(dir.getParentFile());
+            Files.mkdirs(dir);
 
             final String svnBinaryLocation = format("https://dist.apache.org/repos/dist/dev/tomee/staging-%s/%s", Release.build, Release.tomeeVersionName);
             exec("svn", "-m", format("[release-tools] staged binary dir for %s", Release.tomeeVersionName), "mkdir", "--parents", svnBinaryLocation);

@@ -32,8 +32,8 @@ import java.util.regex.Pattern;
  */
 public class Release {
 
-    public static String openejbVersion = "4.7.3";
-    public static String tomeeVersion = "1.7.3";
+    public static String openejbVersion = "7.0.4";
+    public static String tomeeVersion = "7.0.4";
 
     public static String openejbVersionName = "openejb-${openejbVersion}";
     public static String tomeeVersionName = "tomee-${tomeeVersion}";
@@ -44,7 +44,7 @@ public class Release {
     public static String tckBranches = "https://svn.apache.org/repos/tck/tomee-tck/branches/";
     public static String tckTrunk = "https://svn.apache.org/repos/tck/tomee-tck/trunk";
 
-    public static String build = "1071";
+    public static String build = "1106";
     public static String mvnStaging = "https://repository.apache.org/content/repositories/orgapachetomee-"+build+"/";
     public static String staging = "https://repository.apache.org/content/repositories/orgapachetomee-"+build+"/";
 
