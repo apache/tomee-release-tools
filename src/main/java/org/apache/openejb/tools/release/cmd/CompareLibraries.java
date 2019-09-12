@@ -34,16 +34,16 @@ import java.util.zip.ZipFile;
 public class CompareLibraries {
 
     public static void main(final String... args) throws IOException {
-        final File repository = Files.file(System.getProperty("user.home"), ".m2", "repository", "org", "apache", "openejb");
+        final File repository = Files.file(System.getProperty("user.home"), ".m2", "repository", "org", "apache", "tomee");
 
         // /Users/dblevins/.m2/repository/org/apache/openejb/apache-tomee/1.0.0/apache-tomee-1.0.0-webprofile.zip
 
-        diff(repository, "apache-tomee", "1.7.2", "7.0.0-M1", "webprofile");
-        diff(repository, "apache-tomee", "1.7.2", "7.0.0-M1", "jaxrs");
-        diff(repository, "apache-tomee", "1.7.2", "7.0.0-M1", "plus");
-        diff(repository, "apache-tomee", "1.7.2", "7.0.0-M1", "plume");
+        diff(repository, "apache-tomee", "8.0.0-M3", "8.0.0", "webprofile");
+        diff(repository, "apache-tomee", "8.0.0-M3", "8.0.0", "microprofile");
+        diff(repository, "apache-tomee", "8.0.0-M3", "8.0.0", "plus");
+        diff(repository, "apache-tomee", "8.0.0-M3", "8.0.0", "plume");
 
-        diff(repository, "openejb-standalone", "4.7.2", "7.0.0-M1", null);
+        diff(repository, "openejb-standalone", "8.0.0-M3", "8.0.0", null);
 
 
     }
@@ -109,9 +109,9 @@ public class CompareLibraries {
         final String artifact;
 
         if (classifier != null) {
-            artifact = "-Dartifact=" + String.format("org.apache.openejb:%s:%s:%s:%s", artifactId, version, "zip", classifier);
+            artifact = "-Dartifact=" + String.format("org.apache.tomee:%s:%s:%s:%s", artifactId, version, "zip", classifier);
         } else {
-            artifact = "-Dartifact=" + String.format("org.apache.openejb:%s:%s:%s", artifactId, version, "zip");
+            artifact = "-Dartifact=" + String.format("org.apache.tomee:%s:%s:%s", artifactId, version, "zip");
         }
 
         final int i = Exec.exec(mvn(), "-X", "org.apache.maven.plugins:maven-dependency-plugin:2.4:get", "-DrepoUrl=" + repoUrl, artifact);
