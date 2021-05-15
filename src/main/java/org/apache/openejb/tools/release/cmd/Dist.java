@@ -216,10 +216,7 @@ public class Dist {
     }
 
     /**
-     * Removes an older release from the mirror system. To view all existing releases simply execute `dist list-releases`
-     * If there are too many releases in our release directory, infra will ask us to remove the older binaries as they
-     * are available in archive.apache.org.  After executing `dist dev-to-release` it is a good idea to clean up any
-     * previous releases that are no longer necessary.
+     * Lists releases currently on the mirror system.
      *
      * @param releases  The specific location in dist.apache.org release where this project's binaries are promoted
      */
