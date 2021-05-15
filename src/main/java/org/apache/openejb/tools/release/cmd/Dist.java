@@ -166,6 +166,9 @@ public class Dist {
      * where they will become available on the Apache mirror system within 24 hours.  Please note that it does take some
      * time for things to propagate, so any updates to the download page should not be done till about 24 hours after this
      * command is run.
+     *
+     * Once this command is run it is a good idea to use `dist remove-release` to remove any older releases from the mirror
+     * system that we no longer need.
      * 
      * @param stagingDir  The name of the staging directory to release.  Example: staging-1179
      * @param dev  The specific location in dist.apache.org dev where this project's binaries are staged
@@ -194,6 +197,38 @@ public class Dist {
         exec("svn", "list", release.toASCIIString());
     }
 
+    /**
+     * Removes an older release from the mirror system. To view all existing releases simply execute `dist list-releases`
+     * If there are too many releases in our release directory, infra will ask us to remove the older binaries as they
+     * are available in archive.apache.org.  After executing `dist dev-to-release` it is a good idea to clean up any
+     * previous releases that are no longer necessary.
+     * 
+     * @param releaseDirectory The release directory to remove from the mirror system.  Example: tomee-9.0.0-M3
+     * @param releases  The specific location in dist.apache.org release where this project's binaries are promoted
+     */
+    @Command("remove-release")
+    public void removeRelease(final String releaseDirectory,
+                        @Option("release-repo") @Default("https://dist.apache.org/repos/dist/release/tomee/") final URI releases,
+                        final @Out PrintStream out) throws IOException {
+
+        final URI releaseUri = releases.resolve(releaseDirectory);
+        exec("svn", "-m", format("[release-tools] remove release %s", releaseDirectory), "rm", releaseUri.toASCIIString());
+    }
+
+    /**
+     * Removes an older release from the mirror system. To view all existing releases simply execute `dist list-releases`
+     * If there are too many releases in our release directory, infra will ask us to remove the older binaries as they
+     * are available in archive.apache.org.  After executing `dist dev-to-release` it is a good idea to clean up any
+     * previous releases that are no longer necessary.
+     *
+     * @param releases  The specific location in dist.apache.org release where this project's binaries are promoted
+     */
+    @Command("list-releases")
+    public void listReleases(@Option("release-repo") @Default("https://dist.apache.org/repos/dist/release/tomee/") final URI releases,
+                             final @Out PrintStream out) throws IOException {
+
+        exec("svn", "list", releases.toASCIIString());
+    }
 
     /**
      * Return the last digits of a Nexus staging repo dir such as orgapachetomee-1136 or
