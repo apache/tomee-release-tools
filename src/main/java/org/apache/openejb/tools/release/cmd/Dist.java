@@ -169,7 +169,7 @@ public class Dist {
      *
      * Once this command is run it is a good idea to use `dist remove-release` to remove any older releases from the mirror
      * system that we no longer need.
-     * 
+     *
      * @param stagingDir  The name of the staging directory to release.  Example: staging-1179
      * @param dev  The specific location in dist.apache.org dev where this project's binaries are staged
      * @param release  The specific location in dist.apache.org release where this project's binaries are promoted
@@ -202,14 +202,14 @@ public class Dist {
      * If there are too many releases in our release directory, infra will ask us to remove the older binaries as they
      * are available in archive.apache.org.  After executing `dist dev-to-release` it is a good idea to clean up any
      * previous releases that are no longer necessary.
-     * 
+     *
      * @param releaseDirectory The release directory to remove from the mirror system.  Example: tomee-9.0.0-M3
      * @param releases  The specific location in dist.apache.org release where this project's binaries are promoted
      */
     @Command("remove-release")
     public void removeRelease(final String releaseDirectory,
-                        @Option("release-repo") @Default("https://dist.apache.org/repos/dist/release/tomee/") final URI releases,
-                        final @Out PrintStream out) throws IOException {
+                              @Option("release-repo") @Default("https://dist.apache.org/repos/dist/release/tomee/") final URI releases,
+                              final @Out PrintStream out) throws IOException {
 
         final URI releaseUri = releases.resolve(releaseDirectory);
         exec("svn", "-m", format("[release-tools] remove release %s", releaseDirectory), "rm", releaseUri.toASCIIString());
@@ -225,6 +225,26 @@ public class Dist {
                              final @Out PrintStream out) throws IOException {
 
         exec("svn", "list", releases.toASCIIString());
+    }
+
+    @Command("add-key")
+    public void addKey(final File publicKey,
+                       @Option("release-repo") @Default("https://dist.apache.org/repos/dist/release/tomee/") final URI releases,
+                       @Out final PrintStream out) throws IOException {
+
+        final File tmpdir = Files.tmpdir();
+        //svn checkout https://dist.apache.org/repos/dist/release/tomee/ --depth files
+        exec("svn", "checkout", releases.toASCIIString(), tmpdir.getAbsolutePath(), "--depth", "files");
+
+        final File keys = new File(tmpdir, "KEYS");
+        final String contents = IO.slurp(publicKey);
+        try (final PrintStream keysStream = new PrintStream(IO.write(keys, true))) {
+            keysStream.println();
+            keysStream.println(contents);
+        }
+        final URI keysUri = releases.resolve("KEYS");
+        exec("svn", "-m", format("[release-tools] add key to %s", keysUri), "ci", keys.getAbsolutePath());
+        out.printf("Key added to %s%n", keysUri);
     }
 
     /**
