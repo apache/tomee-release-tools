@@ -55,6 +55,7 @@ import java.util.stream.Stream;
 
 import static java.lang.String.format;
 import static org.apache.openejb.tools.release.util.Exec.exec;
+import static org.apache.openejb.tools.release.util.Exec.read;
 
 @Command
 public class Dist {
@@ -152,6 +153,49 @@ public class Dist {
     }
 
     /**
+     * Move binaries dist.apache.org dev to dist.apache.org release
+     *
+     * Looks for directories under the specified stagedDir in dist.apache.org dev section and moves each into the mirror
+     * system under dist.apache.org release section.  For example, given the following staged directory in svn:
+     *
+     *     svn list https://dist.apache.org/repos/dist/dev/tomee/staging-1179/
+     *     tomee-8.0.7/
+     *     tomee-9.0.0.-M7/
+     *
+     * The command below would move the "tomee-8.0.7" and "tomee-9.0.0.-M7" into dist.apache.org/repos/dist/release/tomee/
+     * where they will become available on the Apache mirror system within 24 hours.  Please note that it does take some
+     * time for things to propagate, so any updates to the download page should not be done till about 24 hours after this
+     * command is run.
+     * 
+     * @param stagingDir  The name of the staging directory to release.  Example: staging-1179
+     * @param dev  The specific location in dist.apache.org dev where this project's binaries are staged
+     * @param release  The specific location in dist.apache.org release where this project's binaries are promoted
+     */
+    @Command("dev-to-release")
+    public void release(final String stagingDir,
+                        @Option("dev-repo") @Default("https://dist.apache.org/repos/dist/dev/tomee/") final URI dev,
+                        @Option("release-repo") @Default("https://dist.apache.org/repos/dist/release/tomee/") final URI release,
+                        final @Out PrintStream out) throws IOException {
+
+        final URI stagingUri = dev.resolve(stagingDir + "/");
+        final String contents = IO.slurp(read("svn", "list", stagingUri.toASCIIString()));
+        final String[] dirs = contents.split("[\n /]+");
+
+        for (final String dir : dirs) {
+            final URI dirUri = stagingUri.resolve(dir);
+            out.printf("Promoting %s/%s%n", stagingDir, dir);
+            exec("svn", "-m", format("[release-tools] promote staged binaries for %s", dir), "mv", dirUri.toASCIIString(), release.toASCIIString());
+        }
+
+        out.printf("Removing %s%n", stagingUri);
+        exec("svn", "-m", format("[release-tools] remove staged directory %s", stagingDir), "rm", stagingUri.toASCIIString());
+
+        out.printf("Listing %s%n", release);
+        exec("svn", "list", release.toASCIIString());
+    }
+
+
+    /**
      * Return the last digits of a Nexus staging repo dir such as orgapachetomee-1136 or
      * return the month and day as a default.
      */
@@ -163,14 +207,6 @@ public class Dist {
 
         final SimpleDateFormat format = new SimpleDateFormat("MMdd");
         return format.format(new Date());
-    }
-
-    @Command("dev-to-release")
-    public void release(final String version,
-                        @Option("dev-repo") @Default("https://repo1.maven.org/maven2/") final URI mavenRepo,
-                        @Option("release-repo") @Default("https://dist.apache.org/repos/dist/release/tomee/") final URI svnRepo,
-                        final @Out PrintStream out) throws IOException {
-
     }
 
     public static class MavenRepo {
