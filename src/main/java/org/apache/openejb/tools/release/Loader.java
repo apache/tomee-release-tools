@@ -18,6 +18,7 @@ package org.apache.openejb.tools.release;
 
 
 import org.apache.openejb.tools.release.cmd.Dist;
+import org.apache.openejb.tools.release.cmd.ReleaseNotes;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -28,6 +29,7 @@ public class Loader implements org.tomitribe.crest.api.Loader {
     public Iterator<Class<?>> iterator() {
         return Arrays.asList(
                 Dist.class,
+                ReleaseNotes.class,
                 Object.class
         ).iterator();
     }
