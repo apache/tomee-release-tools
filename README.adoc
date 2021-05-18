@@ -1,0 +1,115 @@
+# TomEE Release Tools
+
+This repo contains tools that help reduce the manual work associated with doing releases.
+
+## Building
+
+First, build the dependent components that do not yet have a release:
+
+----
+svn co https://svn.apache.org/repos/asf/creadur/tentacles/trunk tentacles
+cd tentacles
+mvn clean install -DskipTests -DfailIfNoTests=false
+----
+
+Then build this repo:
+
+----
+mvn clean install
+----
+
+## Running
+
+Once compiled, the executable can be ran as follows:
+
+----
+$ ./target/release
+Commands: 
+                       
+   dist                
+   help                
+   release-notes       
+
+$ ./target/release dist
+Missing sub-command
+Usage: dist [subcommand] [options]
+
+Sub commands: 
+                       
+   add-key             
+   dev-to-release      
+   list-releases       
+   maven-to-dev        
+   remove-release      
+
+$ ./target/release dist list-releases
+KEYS
+tomee-1.7.5/
+tomee-7.0.9/
+tomee-7.1.4/
+tomee-8.0.6/
+tomee-8.0.7/
+tomee-9.0.0-M7/
+----
+
+## Help text
+
+Many of the commands have detailed man-page-style help text which can be obtained by the `help` command.  For example to get help on `release dist maven-to-dev`, run:
+
+----
+./target/release help dist maven-to-dev
+----
+
+In man-page style it will pipe to `less` and can be scrolled up and down.  The following is an example of what the man-page style looks like.
+
+----
+NAME
+       maven-to-dev
+
+SYNOPSIS
+       dist maven-to-dev [options] String
+
+DESCRIPTION
+       Download  binaries  from  a  maven  repo  and  commit them to
+       dist.apache.org dev
+
+       The org/apache/tomee/apache-tomee and
+       org/apache/tomee/tomee-project sections of the maven
+       repository  will be scanned for the version specified and all
+       zip and tar.gz  files  will  be  downloaded  along  with  any
+       associated asc and sha1 files.  After download the sha1 files
+       of each binary will be checked to ensure a complete download.
+       The  sha256  and sha512 file for each binary will be computed
+       and written to disk.
+
+       If  the  --dry-run  flag  is  not enabled, the resulting zip,
+       tar.gz, asc, sha256 and sha512 files will be  uploaded  to  a
+       directory  in  dist.apache.org dev or the specified svn repo.
+
+       When ready, the dist.apache.org dev directory can be moved to
+       dist.apache.org release via the dist dev-to-release
+       command.
+
+OPTIONS
+       --dry-run
+              Download  the  files  to local disk, but do not commit
+              them to svn
+
+       --maven-repo=<URI>
+              The  root  path of a Nexus staging repository or Maven
+              Central
+       
+              default: https://repo1.maven.org/maven2/
+
+       --svn-repo=<URI>
+              The  svn  directory for tomee where a subdirectory can
+              be created and binaries uploaded
+       
+              default: https://dist.apache.org/repos/dist/dev/tomee/
+
+       --tmp=<File>
+              The  directory  under  which  files can be temporarily
+              downloaded
+       
+              default: /tmp/
+----
