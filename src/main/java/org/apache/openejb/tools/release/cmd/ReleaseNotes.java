@@ -18,6 +18,8 @@ package org.apache.openejb.tools.release.cmd;
 
 import com.atlassian.jira.rest.client.api.SearchRestClient;
 import com.atlassian.jira.rest.client.api.domain.Issue;
+import com.atlassian.jira.rest.client.api.domain.IssueLink;
+import com.atlassian.jira.rest.client.api.domain.IssueLinkType;
 import com.atlassian.jira.rest.client.api.domain.IssueType;
 import com.atlassian.jira.rest.client.api.domain.SearchResult;
 import lombok.Getter;
@@ -32,6 +34,7 @@ import org.tomitribe.jamira.core.Client;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -41,6 +44,9 @@ import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import static com.atlassian.jira.rest.client.api.domain.IssueLinkType.Direction.INBOUND;
+import static com.atlassian.jira.rest.client.api.domain.IssueLinkType.Direction.OUTBOUND;
 
 /**
  * @version $Rev$ $Date$
@@ -117,9 +123,10 @@ public class ReleaseNotes {
                 out.println();
                 out.printf("== %s%n", section.getName());
                 out.println();
+                out.println("[.compact]");
 
                 if (section.getName().equals("Dependency upgrade")) {
-                    issues.stream()
+                    removeSuperseded(issues).stream()
                             .map(Upgrade::new)
                             .sorted(Comparator.comparing(Upgrade::getSummary))
                             .forEach(upgrade -> {
@@ -139,6 +146,23 @@ public class ReleaseNotes {
                 }
             }
         };
+    }
+
+    public static Collection<Issue> removeSuperseded(final List<Issue> issues) {
+        final Map<String, Issue> map = new HashMap<>();
+        issues.forEach(issue -> map.put(issue.getKey(), issue));
+
+        for (final Issue issue : issues) {
+            for (final IssueLink link : issue.getIssueLinks()) {
+                final IssueLinkType linkType = link.getIssueLinkType();
+                if (!"Supercedes".equalsIgnoreCase(linkType.getName())) continue;
+                if (!OUTBOUND.equals(linkType.getDirection())) continue;
+
+                map.remove(link.getTargetIssueKey());
+            }
+        }
+
+        return map.values();
     }
 
     public static void main(final String[] args) throws Throwable {
