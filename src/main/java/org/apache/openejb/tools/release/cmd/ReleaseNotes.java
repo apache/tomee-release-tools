@@ -101,6 +101,7 @@ public class ReleaseNotes {
         final List<IssueType> sections = Arrays.asList(
                 client.getIssueType("Dependency upgrade"),
                 client.getIssueType("New Feature"),
+                client.getIssueType("Bug"),
                 client.getIssueType("Improvement"),
                 client.getIssueType("Task"),
                 client.getIssueType("Sub-task")
