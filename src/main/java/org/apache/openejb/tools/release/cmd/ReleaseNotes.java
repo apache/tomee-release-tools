@@ -39,13 +39,14 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import static com.atlassian.jira.rest.client.api.domain.IssueLinkType.Direction.INBOUND;
 import static com.atlassian.jira.rest.client.api.domain.IssueLinkType.Direction.OUTBOUND;
 
 /**
@@ -113,13 +114,22 @@ public class ReleaseNotes {
                     ":jbake-type: page\n" +
                     ":jbake-status: published");
 
+            final List<Issue> cveIssues = new ArrayList<>();
+
             for (final IssueType section : sections) {
 
-                final List<Issue> issues = issuesByKey.values()
+                final Map<Boolean, List<Issue>> issuesPartitionedByCve = issuesByKey.values()
                         .stream().filter(issue -> issue.getIssueType().getName().equals(section.getName()))
+                        .collect(Collectors.partitioningBy(issue ->
+                                issue.getLabels().stream().anyMatch(label -> "cve".equals(label.toLowerCase(Locale.ROOT)))));
+
+                final List<Issue> issues = Stream.of(issuesPartitionedByCve.values())
+                        .flatMap(Collection::stream).flatMap(Collection::stream)
                         .collect(Collectors.toList());
 
                 if (issues.size() <= 0) continue;
+
+                cveIssues.addAll(issuesPartitionedByCve.get(true));
 
                 out.println();
                 out.printf("== %s%n", section.getName());
@@ -144,6 +154,22 @@ public class ReleaseNotes {
                                 issue.getKey(),
                                 issue.getSummary());
                     }
+                }
+
+            }
+
+            if(cveIssues.size() > 0) {
+                //CVE section
+                out.println();
+                out.printf("== %s%n", "Fixed Common Vulnerabilities and Exposures (CVEs)");
+                out.println();
+                out.println("[.compact]");
+
+                for (final Issue issue : cveIssues) {
+                    out.printf(" - link:https://issues.apache.org/jira/browse/%s[%s] %s%n",
+                            issue.getKey(),
+                            issue.getKey(),
+                            issue.getSummary());
                 }
             }
         };
