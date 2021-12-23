@@ -106,7 +106,8 @@ public class ReleaseNotes {
                 client.getIssueType("Improvement"),
                 client.getIssueType("Task"),
                 client.getIssueType("Documentation"),
-                client.getIssueType("Sub-task")
+                client.getIssueType("Sub-task"),
+                client.getIssueType("Wish")
         );
 
         return out -> {
