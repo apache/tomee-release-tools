@@ -105,6 +105,7 @@ public class ReleaseNotes {
                 client.getIssueType("Bug"),
                 client.getIssueType("Improvement"),
                 client.getIssueType("Task"),
+                client.getIssueType("Documentation"),
                 client.getIssueType("Sub-task")
         );
 
@@ -201,7 +202,7 @@ public class ReleaseNotes {
         // then add system properties to get values replaced in the template
         for (final Field field : Release.class.getFields()) {
             try {
-                argsList.add("-D" + field.getName() + "=" + field.get(null));
+                argsList.add("-D" + field.getName() + "=" + field.get(null));git
             } catch (final IllegalAccessException e) {
                 e.printStackTrace();
             }
