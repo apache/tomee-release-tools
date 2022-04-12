@@ -203,7 +203,7 @@ public class ReleaseNotes {
         // then add system properties to get values replaced in the template
         for (final Field field : Release.class.getFields()) {
             try {
-                argsList.add("-D" + field.getName() + "=" + field.get(null));git
+                argsList.add("-D" + field.getName() + "=" + field.get(null));
             } catch (final IllegalAccessException e) {
                 e.printStackTrace();
             }
