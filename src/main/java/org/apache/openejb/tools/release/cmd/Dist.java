@@ -262,7 +262,7 @@ public class Dist {
     }
 
     public static class MavenRepo {
-        private final CloseableHttpClient client = HttpClientBuilder.create().build();
+        private final CloseableHttpClient client = HttpClientBuilder.create().disableContentCompression().build();
         private final URI repo;
         private final PrintStream out;
 
