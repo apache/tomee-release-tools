@@ -337,13 +337,13 @@ public class Dist {
         }
 
         default void createSha256() {
-            final String sha256 = hash("SHA-256");
+            final String sha256 = hash("SHA-256") + getTabbedFilename();
             write(sha256, sha256());
         }
 
         default void createSha512() {
-            final String sha256 = hash("SHA-512");
-            write(sha256, sha512());
+            final String sha512 = hash("SHA-512") + getTabbedFilename();
+            write(sha512, sha512());
         }
 
         default File asc() {
@@ -360,6 +360,14 @@ public class Dist {
 
         default File sha512() {
             return get(get(), "sha512");
+        }
+
+        default String getTabbedFilename() {
+            return "\t" + getFileName();
+        }
+
+        default String getFileName() {
+            return get().getName();
         }
 
         static void write(String content, File file) {
