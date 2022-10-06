@@ -14,24 +14,30 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.apache.openejb.tools.release;
+package org.apache.openejb.tools.release.maven.pom;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import org.w3c.dom.Node;
 
-import org.apache.openejb.tools.release.cmd.AnalyzeUpgrades;
-import org.apache.openejb.tools.release.cmd.Dist;
-import org.apache.openejb.tools.release.cmd.ReleaseNotes;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.util.List;
 
-import java.util.Arrays;
-import java.util.Iterator;
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@XmlRootElement(name = "properties")
+@XmlAccessorType(XmlAccessType.FIELD)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+public class Properties {
 
-public class Loader implements org.tomitribe.crest.api.Loader {
-
-    @Override
-    public Iterator<Class<?>> iterator() {
-        return Arrays.asList(
-                Dist.class,
-                ReleaseNotes.class,
-                AnalyzeUpgrades.class
-        ).iterator();
-    }
+    @XmlAnyElement(lax = true)
+    protected List<Node> any;
 }

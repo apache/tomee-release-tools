@@ -14,24 +14,14 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.apache.openejb.tools.release;
+package org.apache.openejb.tools.release.maven.pom;
 
+public class MavenPomException extends IllegalStateException {
+    public MavenPomException(final Exception e) {
+        super(e);
+    }
 
-import org.apache.openejb.tools.release.cmd.AnalyzeUpgrades;
-import org.apache.openejb.tools.release.cmd.Dist;
-import org.apache.openejb.tools.release.cmd.ReleaseNotes;
-
-import java.util.Arrays;
-import java.util.Iterator;
-
-public class Loader implements org.tomitribe.crest.api.Loader {
-
-    @Override
-    public Iterator<Class<?>> iterator() {
-        return Arrays.asList(
-                Dist.class,
-                ReleaseNotes.class,
-                AnalyzeUpgrades.class
-        ).iterator();
+    public MavenPomException(final String message, final Throwable cause) {
+        super(message, cause);
     }
 }

@@ -14,24 +14,16 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.apache.openejb.tools.release;
+package org.apache.openejb.tools.release.maven.pom;
 
+public interface Coordinates {
+    String getGroupId();
 
-import org.apache.openejb.tools.release.cmd.AnalyzeUpgrades;
-import org.apache.openejb.tools.release.cmd.Dist;
-import org.apache.openejb.tools.release.cmd.ReleaseNotes;
+    String getArtifactId();
 
-import java.util.Arrays;
-import java.util.Iterator;
+    String getVersion();
 
-public class Loader implements org.tomitribe.crest.api.Loader {
-
-    @Override
-    public Iterator<Class<?>> iterator() {
-        return Arrays.asList(
-                Dist.class,
-                ReleaseNotes.class,
-                AnalyzeUpgrades.class
-        ).iterator();
+    default String gav() {
+        return String.format("%s:%s:%s", getGroupId(), getArtifactId(), getVersion());
     }
 }

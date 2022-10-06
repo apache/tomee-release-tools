@@ -14,24 +14,31 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.apache.openejb.tools.release;
+package org.apache.openejb.tools.release.maven.pom;
 
+import org.w3c.dom.Node;
 
-import org.apache.openejb.tools.release.cmd.AnalyzeUpgrades;
-import org.apache.openejb.tools.release.cmd.Dist;
-import org.apache.openejb.tools.release.cmd.ReleaseNotes;
+import javax.xml.bind.annotation.adapters.XmlAdapter;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
-import java.util.Arrays;
-import java.util.Iterator;
-
-public class Loader implements org.tomitribe.crest.api.Loader {
+public class PropertiesAdapter extends XmlAdapter<Properties, Map<String, String>> {
 
     @Override
-    public Iterator<Class<?>> iterator() {
-        return Arrays.asList(
-                Dist.class,
-                ReleaseNotes.class,
-                AnalyzeUpgrades.class
-        ).iterator();
+    public Map<String, String> unmarshal(final Properties v) throws Exception {
+        final Map<String, String> map = new LinkedHashMap<>();
+
+        for (final Node node : v.getAny()) {
+            final String name = node.getNodeName();
+            final String value = node.getTextContent();
+            map.put(name, value);
+        }
+
+        return map;
+    }
+
+    @Override
+    public Properties marshal(final Map<String, String> v) throws Exception {
+        return null;
     }
 }
