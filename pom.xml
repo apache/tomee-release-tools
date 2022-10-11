@@ -165,7 +165,7 @@
     <dependency>
       <groupId>org.apache.creadur.tentacles</groupId>
       <artifactId>apache-tentacles</artifactId>
-      <version>0.1-SNAPSHOT</version>
+      <version>0.1</version>
       <exclusions>
         <exclusion>
           <artifactId>plexus-utils</artifactId>
